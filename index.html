@@ -401,7 +401,7 @@
   .modal-gallery img { width: 100%; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: transform 0.4s var(--ease-liquid); }
   .modal-gallery img:hover { transform: scale(1.04) translateY(-4px); }
 
-  /* ================= RESPONSIVE AND iOS BUG FIXES ================= */
+  /* ================= RESPONSIVE AND BUG FIXES ================= */
   @media (max-width: 900px) {
     .nav { width: calc(100% - 1.5rem); padding: 0.7rem 1.25rem; top: max(1rem, env(safe-area-inset-top)); }
     
@@ -562,9 +562,16 @@
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Phone carousel bob is kept — only translateY, cheap on any GPU */
-  /* Scroll reveal is kept — opacity + translateY, no filter cost    */
 </style>
+<!-- Fallback if JS is disabled so cards don't stay hidden forever -->
+<noscript>
+  <style>
+    .reveal, .reveal-card { 
+      opacity: 1 !important; 
+      transform: none !important; 
+    }
+  </style>
+</noscript>
 </head>
 <body>
 
@@ -769,19 +776,29 @@
 <script>
   // ─── LITE MODE DETECTION ─────────────────────────────────────────────────────
   // Runs synchronously before any rendering so the class is set before first paint.
-  // TARGETING DETECTOR FIXED: Safely targets all Android systems to bypass complex compositing bottlenecks.
   (function () {
     var ua = navigator.userAgent;
-    var isAndroid = /Android/i.test(ua);
     
+    // 1. Check if the device is an iPhone or iPad (VIP Pass)
+    var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // If it's an Apple mobile device, stop right here. Let it run full graphics.
+    if (isIOS) {
+      return; 
+    }
+    
+    // 2. If it's Android, turn on lite mode to prevent lag
+    var isAndroid = /Android/i.test(ua);
     if (isAndroid) {
       document.documentElement.classList.add('lite');
-    } else {
-      var isMobile = /Mobi|iPod/i.test(ua);
-      var lowCores = (navigator.hardwareConcurrency || 8) <= 4;
-      if (isMobile && lowCores) {
-        document.documentElement.classList.add('lite');
-      }
+      return;
+    } 
+    
+    // 3. For any other mobile devices, check processing power
+    var isMobile = /Mobi/i.test(ua);
+    var lowCores = (navigator.hardwareConcurrency || 8) <= 4;
+    if (isMobile && lowCores) {
+      document.documentElement.classList.add('lite');
     }
   })();
 
