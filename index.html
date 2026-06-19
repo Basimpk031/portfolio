@@ -272,7 +272,6 @@
       0 0 55px rgba(59,130,246,0.32),
       0 0 110px rgba(59,130,246,0.12);
   }
-  /* OPTIMIZED: Removed filter: blur(1px) here and below to speed up modern high-refresh screens */
   .pos-2 {
     transform: translateX(192px) translateY(28px) scale(0.82) rotateY(-16deg);
     translate: 0 0;
@@ -574,6 +573,31 @@
   .lite .modal-close {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+  }
+
+  /* Simplify phone carousel for lite mode: flat 2D, fast transitions, no expensive shadows or overlays */
+  .lite .phone {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
+  }
+  .lite .phone::after, 
+  .lite .phone::before {
+    display: none !important;
+  }
+  .lite .pos-1 {
+    transform: translateX(0) scale(1) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+    animation: none !important;
+  }
+  .lite .pos-2 {
+    transform: translateX(110px) scale(0.85) !important;
+    box-shadow: none !important;
+  }
+  .lite .pos-3 {
+    transform: translateX(0) scale(0.75) !important;
+  }
+  .lite .pos-4 {
+    transform: translateX(-110px) scale(0.85) !important;
+    box-shadow: none !important;
   }
 
 </style>
@@ -915,7 +939,9 @@
       isAnimating = true;
       for (var i = 0; i < steps; i++) phoneArray.push(phoneArray.shift());
       applyPositions();
-      setTimeout(function () { isAnimating = false; }, 960);
+      // Adjust timeout based on whether we are in lite mode (faster transitions)
+      var animationDuration = isLite ? 350 : 960;
+      setTimeout(function () { isAnimating = false; }, animationDuration);
     }
 
     dots.forEach(function (d) {
