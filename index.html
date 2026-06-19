@@ -410,10 +410,24 @@
       display: flex; position: absolute; top: calc(100% + 15px); left: 0; right: 0;
       background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.15); border-radius: var(--r-md);
-      flex-direction: column; padding: 1.5rem; gap: 1.5rem;
+      flex-direction: column; padding: 1rem 1.5rem; gap: 0;
       opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
     .nav-links.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* Fix: Expand links to take full width and add padding for easy tapping */
+    .nav-links a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 1.2rem 0;
+    }
+    /* Fix: Keep the hover underline restricted to the text area */
+    .nav-links a::after {
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 80px; 
+    }
 
     .hero { padding-top: calc(8rem + env(safe-area-inset-top)); }
     .hero .wrap { grid-template-columns: 1fr; text-align: center; }
@@ -563,6 +577,7 @@
   }
 
 </style>
+<!-- Fallback if JS is disabled so cards don't stay hidden forever -->
 <noscript>
   <style>
     .reveal, .reveal-card { 
