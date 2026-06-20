@@ -6,6 +6,21 @@
 <meta name="theme-color" content="#0a0a0f" />
 <title>Muhammed Basim PK — Developer Portfolio</title>
 <meta name="description" content="Muhammed Basim PK — software developer building Flutter apps, web projects, and cloud/network fundamentals. Creator of FoodFeast." />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://basimpk031.github.io/portfolio/" />
+<meta property="og:title" content="Muhammed Basim PK — Developer Portfolio" />
+<meta property="og:description" content="Muhammed Basim PK — software developer building Flutter apps, web projects, and cloud/network fundamentals. Creator of FoodFeast." />
+<meta property="og:image" content="https://basimpk031.github.io/portfolio/images/og-image.jpg" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://basimpk031.github.io/portfolio/" />
+<meta property="twitter:title" content="Muhammed Basim PK — Developer Portfolio" />
+<meta property="twitter:description" content="Muhammed Basim PK — software developer building Flutter apps, web projects, and cloud/network fundamentals. Creator of FoodFeast." />
+<meta property="twitter:image" content="https://basimpk031.github.io/portfolio/images/og-image.jpg" />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%231a1a24'/><stop offset='100%25' stop-color='%23050508'/></linearGradient><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2360a5fa'/><stop offset='100%25' stop-color='%23f43f5e'/></linearGradient><filter id='glow'><feDropShadow dx='0' dy='4' stdDeviation='5' flood-color='%23000' flood-opacity='0.8'/></filter></defs><rect width='100' height='100' rx='28' fill='url(%23bg)' stroke='%233b82f6' stroke-width='2' stroke-opacity='0.3'/><text x='50' y='74' font-family='system-ui, sans-serif' font-size='66' font-weight='900' fill='url(%23grad)' text-anchor='middle' filter='url(%23glow)'>B</text></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -127,9 +142,35 @@
     box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.35), inset 0 -1px 2px rgba(255, 255, 255, 0.05), 0 25px 60px rgba(0, 0, 0, 0.6);
   }
   .nav .wrap { padding: 0; max-width: none; display: flex; justify-content: space-between; align-items: center; }
-  .nav-logo { font-size: 1.4rem; font-weight: 800; text-shadow: 0 4px 12px rgba(0,0,0,0.4); display: inline-block; transition: transform 0.3s var(--ease-liquid); }
-  .nav-logo:hover { transform: scale(1.06) rotate(-2deg); }
-  .nav-logo span { color: var(--accent-coral); display: inline-block; animation: dotPulse 1.8s ease-in-out infinite; }
+  
+  /* 3D & Glowing Navigation Logo */
+  .nav-logo { 
+    font-size: 2.2rem; 
+    font-weight: 900; 
+    display: inline-block; 
+    transition: transform 0.3s var(--ease-liquid), filter 0.3s;
+    /* Metallic gradient text */
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 45%, #64748b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Layered drop shadows for 3D depth and glow */
+    filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.8)) drop-shadow(0px 0px 12px rgba(59, 130, 246, 0.4));
+  }
+  .nav-logo:hover { 
+    transform: scale(1.08) rotate(-3deg); 
+    filter: drop-shadow(0px 6px 4px rgba(0,0,0,0.9)) drop-shadow(0px 0px 20px rgba(59, 130, 246, 0.8));
+  }
+  .nav-logo span { 
+    /* Vibrant coral gradient for the dot */
+    background: linear-gradient(135deg, var(--accent-coral-light), var(--accent-coral));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block; 
+    animation: dotPulse 1.8s ease-in-out infinite; 
+  }
+  
   @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
   
   .nav-links { display: flex; gap: 2.5rem; align-items: center; }
@@ -231,6 +272,11 @@
     width: 248px; height: 536px; position: absolute; border-radius: 46px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: #000; overflow: hidden;
+    
+    /* FIX: Forces the container to clip the image's corners in 3D */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    
     transition:
       transform     0.9s cubic-bezier(0.16, 1, 0.3, 1),
       translate     0.9s cubic-bezier(0.16, 1, 0.3, 1),
@@ -253,7 +299,7 @@
     background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
     pointer-events: none; z-index: 3;
   }
-  .phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .phone img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; }
 
   @keyframes phoneBob {
     0%, 100% { translate: 0 0px; }
@@ -282,7 +328,7 @@
   .pos-3 {
     transform: translateX(0) scale(0.62);
     translate: 0 0;
-    z-index: 1; opacity: 0; pointer-events: none;
+    z-index: 1; opacity: 0 pointer-events: none;
   }
   .pos-4 {
     transform: translateX(-192px) translateY(28px) scale(0.82) rotateY(16deg);
@@ -433,7 +479,11 @@
     .hero p { margin: 0 auto 2.5rem; }
     .hero-ctas { justify-content: center; }
     .hero-meta { justify-content: center; }
-    .phone-stage { height: 450px; margin-top: 3rem; transform: scale(0.8); }
+    
+    /* FIX: Bring the 3D phones closer together so they don't clip off the screen */
+    .phone-stage { height: 450px; margin-top: 3rem; transform: scale(0.75); }
+    .pos-2 { transform: translateX(110px) translateY(28px) scale(0.82) rotateY(-16deg); }
+    .pos-4 { transform: translateX(-110px) translateY(28px) scale(0.82) rotateY(16deg); }
     
     .skill-card { transform-style: flat !important; padding: 2rem; animation: cardBreatheMobile 4.5s ease-in-out infinite; }
     .skill-card:nth-child(2) { animation-delay: -1.5s; }
@@ -601,7 +651,6 @@
   }
 
 </style>
-<!-- Fallback if JS is disabled so cards don't stay hidden forever -->
 <noscript>
   <style>
     .reveal, .reveal-card { 
@@ -623,7 +672,7 @@
 
 <nav class="nav" id="nav">
   <div class="wrap">
-    <a href="#" class="nav-logo">Basim<span>.</span></a>
+    <a href="#" class="nav-logo">B<span>.</span></a>
     
     <div class="nav-links" id="nav-links">
       <a href="#about">About</a>
@@ -650,6 +699,9 @@
       <div class="hero-ctas">
         <button class="btn btn-primary" onclick="openModal('foodfeast-modal')">View FoodFeast →</button>
         <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        <a href="Muhammed_basim_pk__dev_resume.docx" download class="btn btn-ghost" style="border-color: var(--accent-blue-light); color: var(--text-main);">
+          Download Resume ↓
+        </a>
       </div>
       <div class="hero-meta">
         <span><b>NTTF</b> · 2023–2026</span>
@@ -759,7 +811,7 @@
   </div>
 </section>
 
-<section id="contact" style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+<footer id="contact" style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 9rem 0;">
   <div class="wrap" style="text-align: center; max-width: 600px;">
     <div class="eyebrow reveal">Contact</div>
     <h2 class="reveal" style="font-size: 3.5rem; margin-bottom: 1.5rem;">Let's talk.</h2>
@@ -767,9 +819,10 @@
     <div class="hero-ctas" style="justify-content: center;">
       <a href="mailto:muhammedbasimpk73@gmail.com" class="btn btn-primary">Email me →</a>
       <a href="https://github.com/Basimpk031" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+      <a href="http://linkedin.com/in/muhammed-basim-pk-b6b315336" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
-</section>
+</footer>
 
 <div id="foodfeast-modal" class="modal">
   <div class="modal-content">
