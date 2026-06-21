@@ -52,6 +52,33 @@
     --r-pill: 999px;
 
     --ease-liquid: cubic-bezier(0.25, 1, 0.3, 1);
+
+    --cursor-mix: 0.5;
+    color-scheme: dark;
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+
+  /* ================= LIGHT THEME ================= */
+  :root.light {
+    --bg-deep: #eef0f5;
+    --bg-deep-2: #f7f8fb;
+    --text-main: #14151a;
+    --text-muted: rgba(20, 21, 26, 0.62);
+
+    --accent-blue: #2563eb;
+    --accent-blue-light: #3b82f6;
+    --accent-coral: #e11d48;
+    --accent-coral-light: #f43f5e;
+    --accent-violet: #7c3aed;
+    --accent-violet-light: #8b5cf6;
+    --accent-teal: #0891b2;
+
+    --glass-fill: rgba(20, 21, 26, 0.035);
+    --glass-fill-strong: rgba(20, 21, 26, 0.06);
+    --glass-border: rgba(20, 21, 26, 0.1);
+    --glass-rim-top: inset 0 2px 2px rgba(255, 255, 255, 0.7);
+    --glass-rim-bottom: inset 0 -1px 2px rgba(20, 21, 26, 0.04);
+    color-scheme: light;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,6 +89,7 @@
     background-color: var(--bg-deep);
     overflow-x: hidden;
     width: 100%;
+    transition: background-color 0.6s ease;
   }
 
   body {
@@ -74,6 +102,7 @@
     min-height: 100vh;
     min-height: 100dvh;
     padding-bottom: env(safe-area-inset-bottom);
+    transition: color 0.6s ease;
   }
 
   h1, h2, h3, h4, .eyebrow, .nav-logo {
@@ -96,6 +125,7 @@
     position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
     background: radial-gradient(circle at 50% 50%, var(--bg-deep-2), var(--bg-deep));
     max-width: 100vw;
+    transition: background-color 0.6s ease;
   }
   
   /* OPTIMIZED: Radial gradients naturally create a soft blur without killing mobile processors */
@@ -105,6 +135,9 @@
   .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-blue) 0%, transparent 65%); top: -200px; left: -140px; opacity: 0.35; animation: driftA 22s ease-in-out infinite; }
   .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-coral) 0%, transparent 65%); top: 10%; right: -80px; opacity: 0.25; animation: driftB 28s ease-in-out infinite reverse; }
   .orb-3 { width: 580px; height: 580px; background: radial-gradient(circle, var(--accent-violet) 0%, transparent 65%); bottom: -250px; left: 15%; opacity: 0.25; animation: driftC 32s ease-in-out infinite; }
+
+  :root.light .orb { mix-blend-mode: multiply; opacity: 0.12; }
+  :root.light .orb-1, :root.light .orb-2, :root.light .orb-3 { opacity: 0.10; }
 
   #edge-fade-top, #edge-fade-bottom {
     position: fixed; left: 0; right: 0; z-index: 1; pointer-events: none;
@@ -120,9 +153,30 @@
     background: linear-gradient(to top, var(--bg-deep) 0%, rgba(5, 5, 8, 0.6) 55%, transparent 100%);
   }
 
+  :root.light #edge-fade-top {
+    background: linear-gradient(to bottom, var(--bg-deep) 0%, rgba(238, 240, 245, 0.6) 55%, transparent 100%);
+  }
+  :root.light #edge-fade-bottom {
+    background: linear-gradient(to top, var(--bg-deep) 0%, rgba(238, 240, 245, 0.6) 55%, transparent 100%);
+  }
+
   @keyframes driftA { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(60px, 80px) scale(1.1); } }
   @keyframes driftB { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-80px, 50px) scale(1.15); } }
   @keyframes driftC { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -70px) scale(1.05); } }
+
+  /* ================= SCROLL PROGRESS INDICATOR ================= */
+  #scroll-progress-track {
+    position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 200;
+    background: transparent; pointer-events: none;
+  }
+  #scroll-progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent-blue-light), var(--accent-violet-light), var(--accent-coral-light));
+    background-size: 200% auto;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.7), 0 0 4px rgba(244, 63, 94, 0.5);
+    transition: width 0.12s ease-out;
+    border-radius: 0 4px 4px 0;
+  }
 
   /* ================= NAVIGATION ================= */
   .nav {
@@ -136,10 +190,18 @@
     box-shadow: var(--glass-rim-top), var(--glass-rim-bottom), 0 20px 50px rgba(0, 0, 0, 0.5);
     transition: padding 0.5s var(--ease-liquid), background 0.5s, box-shadow 0.5s;
   }
+  :root.light .nav {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.35));
+    box-shadow: var(--glass-rim-top), var(--glass-rim-bottom), 0 20px 50px rgba(20, 21, 26, 0.12);
+  }
   .nav.scrolled {
     padding: 0.6rem 1.5rem;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
     box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.35), inset 0 -1px 2px rgba(255, 255, 255, 0.05), 0 25px 60px rgba(0, 0, 0, 0.6);
+  }
+  :root.light .nav.scrolled {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.45));
+    box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(20,21,26,0.04), 0 25px 60px rgba(20, 21, 26, 0.16);
   }
   .nav .wrap { padding: 0; max-width: none; display: flex; justify-content: space-between; align-items: center; }
   
@@ -156,6 +218,11 @@
     -webkit-text-fill-color: transparent;
     /* Layered drop shadows for 3D depth and glow */
     filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.8)) drop-shadow(0px 0px 12px rgba(59, 130, 246, 0.4));
+  }
+  :root.light .nav-logo {
+    background: linear-gradient(180deg, #14151a 0%, #3a3d46 45%, #6b7280 100%);
+    -webkit-background-clip: text; background-clip: text;
+    filter: drop-shadow(0px 2px 2px rgba(20,21,26,0.15)) drop-shadow(0px 0px 12px rgba(59, 130, 246, 0.25));
   }
   .nav-logo:hover { 
     transform: scale(1.08) rotate(-3deg); 
@@ -183,14 +250,20 @@
     background: linear-gradient(90deg, var(--accent-blue-light), var(--accent-coral-light));
     transition: width 0.3s var(--ease-liquid); border-radius: 2px;
   }
-  .nav-links a:hover { color: #fff; text-shadow: 0 0 16px rgba(255,255,255,0.4); transform: translateY(-2px); }
+  .nav-links a:hover { color: var(--text-main); text-shadow: 0 0 16px rgba(255,255,255,0.4); transform: translateY(-2px); }
   .nav-links a:hover::after { width: 100%; }
   .nav-links a:active { transform: translateY(0) scale(0.96); }
+
+  /* Active link highlighting */
+  .nav-links a.active {
+    color: var(--text-main);
+  }
+  .nav-links a.active::after { width: 100%; }
 
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; transition: transform 0.3s var(--ease-liquid); }
   .hamburger:hover { transform: scale(1.15); }
   .hamburger:active { transform: scale(0.9); }
-  .hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: 0.3s; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-main); border-radius: 2px; transition: 0.3s; }
 
   .nav-cta, .btn { position: relative; overflow: hidden; isolation: isolate; }
   .nav-cta::after, .btn::after {
@@ -218,6 +291,72 @@
     50% { box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2), 0 8px 32px rgba(59, 130, 246, 0.75); }
   }
 
+  /* ================= THEME TOGGLE ================= */
+  .theme-toggle {
+    position: relative; width: 52px; height: 30px; border-radius: var(--r-pill); cursor: pointer;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-rim-top), inset 0 -1px 2px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.25);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    display: flex; align-items: center; padding: 3px;
+    transition: background 0.4s var(--ease-liquid), box-shadow 0.3s, transform 0.3s var(--ease-liquid);
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle:active { transform: scale(0.92); }
+  .theme-toggle .toggle-knob {
+    width: 22px; height: 22px; border-radius: 50%; position: relative; z-index: 2;
+    background: linear-gradient(160deg, #ffffff, #c9d4e6 60%, #94a3b8);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.8);
+    transform: translateX(0);
+    transition: transform 0.45s var(--ease-liquid), background 0.45s;
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+  }
+  :root.light .theme-toggle .toggle-knob {
+    transform: translateX(22px);
+    background: linear-gradient(160deg, #fff7e0, #ffd76b 60%, #f5a623);
+    box-shadow: 0 3px 10px rgba(245, 166, 35, 0.5), inset 0 1px 1px rgba(255,255,255,0.9);
+  }
+  :root.light .theme-toggle {
+    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+  }
+
+  /* ================= CUSTOM LIQUID-GLASS CURSOR ================= */
+  .cursor-glow, .cursor-dot {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+    border-radius: 50%; will-change: transform; transform: translate(-50%, -50%);
+  }
+  .cursor-glow {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(244,63,94,0.14));
+    border: 1px solid rgba(255,255,255,0.35);
+    backdrop-filter: blur(4px) saturate(180%); -webkit-backdrop-filter: blur(4px) saturate(180%);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 3px rgba(0,0,0,0.1), 0 4px 18px rgba(59,130,246,0.25);
+    transition: width 0.3s var(--ease-liquid), height 0.3s var(--ease-liquid), background 0.3s, opacity 0.3s, border-color 0.3s;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--accent-blue-light);
+    box-shadow: 0 0 8px var(--accent-blue-light), 0 0 16px rgba(59,130,246,0.6);
+    transition: width 0.25s var(--ease-liquid), height 0.25s var(--ease-liquid), background 0.25s;
+  }
+  body.cursor-hover .cursor-glow {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, rgba(96,165,250,0.3), rgba(244,63,94,0.22));
+    border-color: rgba(255,255,255,0.5);
+  }
+  body.cursor-hover .cursor-dot {
+    width: 9px; height: 9px;
+    background: var(--accent-coral-light);
+    box-shadow: 0 0 10px var(--accent-coral-light), 0 0 18px rgba(244,63,94,0.6);
+  }
+  body.cursor-active .cursor-glow { width: 30px; height: 30px; }
+  body.custom-cursor, body.custom-cursor * { cursor: none !important; }
+
+  @media (hover: none), (pointer: coarse) {
+    .cursor-glow, .cursor-dot { display: none !important; }
+  }
+
   /* ================= HERO ================= */
   .hero {
     padding: calc(10.5rem + env(safe-area-inset-top)) 0 7rem; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; position: relative;
@@ -232,7 +371,9 @@
   }
   @keyframes eyebrowFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
   .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  :root.light .hero h1 { text-shadow: 0 6px 20px rgba(20,21,26,0.1); }
   .hero p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 90%; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+  :root.light .hero p { text-shadow: none; }
   .hero-ctas { display: flex; gap: 1.25rem; margin-bottom: 3.5rem; flex-wrap: wrap; }
   
   .btn { 
@@ -247,7 +388,7 @@
   }
   .btn-ghost {
     background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; box-shadow: var(--glass-rim-top), 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-main); box-shadow: var(--glass-rim-top), 0 10px 25px rgba(0,0,0,0.3);
   }
   .btn:hover { transform: translateY(-6px) scale(1.045); animation-play-state: paused; }
   .btn-primary:hover { box-shadow: inset 0 2px 2px rgba(255,255,255,0.6), inset 0 -3px 4px rgba(0,0,0,0.2), 0 22px 45px rgba(37, 99, 235, 0.65); }
@@ -261,7 +402,7 @@
 
   .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.5rem; }
   .hero-meta span { display: inline-block; transition: transform 0.3s var(--ease-liquid), color 0.3s; cursor: default; }
-  .hero-meta span:hover { transform: translateY(-3px) scale(1.06); color: #fff; }
+  .hero-meta span:hover { transform: translateY(-3px) scale(1.06); color: var(--text-main); }
 
   /* ================= PHONE CAROUSEL ================= */
   .phone-stage {
@@ -356,6 +497,7 @@
   /* ================= SECTION STYLING & 3D GLASS CARDS ================= */
   section { padding: 9rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08); position: relative; }
   section h2 { font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1.2rem; text-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+  :root.light section h2 { text-shadow: 0 6px 18px rgba(20,21,26,0.08); }
   .section-sub { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 4.5rem; max-width: 600px; }
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; perspective: 1200px; }
 
@@ -423,6 +565,7 @@
     z-index: 999; display: flex; justify-content: center; align-items: center; 
     opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease;
   }
+  :root.light .modal { background: rgba(20, 21, 26, 0.35); }
   .modal.active { opacity: 1; visibility: visible; }
   
   .modal-content {
@@ -431,13 +574,17 @@
     transform: translateY(60px) scale(0.9); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: var(--glass-rim-top), 0 80px 150px rgba(0, 0, 0, 0.8); display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center;
   }
+  :root.light .modal-content {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
+    box-shadow: var(--glass-rim-top), 0 60px 120px rgba(20,21,26,0.25);
+  }
   .modal.active .modal-content { transform: translateY(0) scale(1); }
   
   .modal-simple .modal-content { grid-template-columns: 1fr; max-width: 650px; text-align: center; }
 
   .modal-close {
     position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; font-size: 1.6rem; color: #fff; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%; font-size: 1.6rem; color: var(--text-main); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(12px); transition: all 0.3s ease; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.3); z-index: 99; cursor: pointer;
   }
   .modal-close:hover { background: rgba(244, 63, 94, 0.4); border-color: rgba(244, 63, 94, 0.6); transform: scale(1.15) rotate(90deg); }
@@ -457,6 +604,11 @@
       border: 1px solid rgba(255, 255, 255, 0.15); border-radius: var(--r-md);
       flex-direction: column; padding: 1rem 1.5rem; gap: 0;
       opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+    :root.light .nav-links {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(20,21,26,0.1);
+      box-shadow: 0 20px 50px rgba(20,21,26,0.2);
     }
     .nav-links.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
@@ -526,6 +678,9 @@
     -webkit-backdrop-filter: none !important;
     background: rgba(8, 8, 13, 0.96) !important;
     box-shadow: 0 2px 20px rgba(0,0,0,0.6) !important;
+  }
+  .lite.light .nav {
+    background: rgba(247, 248, 251, 0.96) !important;
   }
 
   .lite .nav-links {
@@ -625,6 +780,11 @@
     -webkit-backdrop-filter: none !important;
   }
 
+  .lite .theme-toggle {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
   /* Simplify phone carousel for lite mode: flat 2D, fast transitions, no expensive shadows or overlays */
   .lite .phone {
     transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
@@ -662,6 +822,11 @@
 </head>
 <body>
 
+<div id="scroll-progress-track" aria-hidden="true"><div id="scroll-progress-bar"></div></div>
+
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
 <div id="bg-mesh" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -682,6 +847,9 @@
     </div>
 
     <div style="display: flex; gap: 1rem; align-items: center;">
+      <div class="theme-toggle" id="themeToggle" role="button" aria-label="Toggle light and dark theme" tabindex="0">
+        <div class="toggle-knob" id="toggleKnob">🌙</div>
+      </div>
       <a href="#contact" class="nav-cta">Contact</a>
       <div class="hamburger" id="hamburger">
         <span></span><span></span><span></span>
@@ -875,22 +1043,31 @@
     
     // If it's an Apple mobile device, stop right here. Let it run full graphics.
     if (isIOS) {
-      return; 
+      // still continue to theme init below
+    } else {
+      // 2. If it's Android, turn on lite mode to prevent lag
+      var isAndroid = /Android/i.test(ua);
+      if (isAndroid) {
+        document.documentElement.classList.add('lite');
+      } else {
+        // 3. For any other mobile devices, check processing power
+        var isMobile = /Mobi/i.test(ua);
+        var lowCores = (navigator.hardwareConcurrency || 8) <= 4;
+        if (isMobile && lowCores) {
+          document.documentElement.classList.add('lite');
+        }
+      }
     }
-    
-    // 2. If it's Android, turn on lite mode to prevent lag
-    var isAndroid = /Android/i.test(ua);
-    if (isAndroid) {
-      document.documentElement.classList.add('lite');
-      return;
-    } 
-    
-    // 3. For any other mobile devices, check processing power
-    var isMobile = /Mobi/i.test(ua);
-    var lowCores = (navigator.hardwareConcurrency || 8) <= 4;
-    if (isMobile && lowCores) {
-      document.documentElement.classList.add('lite');
-    }
+
+    // ─── THEME INIT (runs before paint to avoid flash) ──────────────────────────
+    try {
+      var savedTheme = localStorage.getItem('bpk-theme');
+      var theme = savedTheme || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.add('lite-theme-pending'); // no-op marker, harmless
+      }
+    } catch (e) { /* localStorage unavailable — default to dark */ }
   })();
 
   // 1. MODAL STATE FUNCTIONS
@@ -1086,6 +1263,138 @@
       });
     }
 
+    // ─── 6b. SCROLL PROGRESS INDICATOR ───────────────────────────────────────
+    var progressBar = document.getElementById('scroll-progress-bar');
+    function updateScrollProgress() {
+      var doc = document.documentElement;
+      var scrollTop = window.scrollY || doc.scrollTop;
+      var scrollHeight = (doc.scrollHeight - doc.clientHeight) || 1;
+      var pct = Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100));
+      progressBar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress);
+    updateScrollProgress();
+
+    // ─── 6c. ACTIVE NAV LINK HIGHLIGHTING ────────────────────────────────────
+    var sectionIds = ['about', 'work', 'skills', 'education', 'contact'];
+    var navAnchors = Array.from(navLinks ? navLinks.querySelectorAll('a') : []);
+    var sectionEls = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    function setActiveLink(id) {
+      navAnchors.forEach(function (a) {
+        var href = a.getAttribute('href') || '';
+        a.classList.toggle('active', href === '#' + id);
+      });
+    }
+
+    if ('IntersectionObserver' in window && sectionEls.length) {
+      var activeSectionObserver = new IntersectionObserver(function (entries) {
+        var best = null;
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            if (!best || entry.intersectionRatio > best.intersectionRatio) best = entry;
+          }
+        });
+        if (best) setActiveLink(best.target.id);
+      }, { threshold: [0.2, 0.4, 0.6], rootMargin: '-35% 0px -45% 0px' });
+
+      sectionEls.forEach(function (el) { activeSectionObserver.observe(el); });
+    }
+    setActiveLink('about');
+
+    // ─── 6d. THEME TOGGLE ─────────────────────────────────────────────────────
+    var themeToggle = document.getElementById('themeToggle');
+    var toggleKnob  = document.getElementById('toggleKnob');
+    var themeMetaTag = document.querySelector('meta[name="theme-color"]');
+
+    function reflectKnob() {
+      var isLightNow = document.documentElement.classList.contains('light');
+      toggleKnob.textContent = isLightNow ? '☀️' : '🌙';
+    }
+    reflectKnob();
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+      }
+      reflectKnob();
+      try { localStorage.setItem('bpk-theme', theme); } catch (e) {}
+      if (themeMetaTag && isLite) {
+        // In lite mode the dynamic theme-color RAF loop is skipped, so set a static one here
+        themeMetaTag.setAttribute('content', theme === 'light' ? '#eef0f5' : '#0a0a0f');
+      }
+    }
+
+    function toggleTheme() {
+      var isLightNow = document.documentElement.classList.contains('light');
+      applyTheme(isLightNow ? 'dark' : 'light');
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+      themeToggle.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); }
+      });
+    }
+    // Sync the static meta color immediately if already in lite mode
+    if (isLite && themeMetaTag) {
+      themeMetaTag.setAttribute('content', document.documentElement.classList.contains('light') ? '#eef0f5' : '#0a0a0f');
+    }
+
+    // ─── 6e. CUSTOM LIQUID-GLASS CURSOR ───────────────────────────────────────
+    var supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (supportsHover) {
+      document.body.classList.add('custom-cursor');
+      var cursorGlow = document.getElementById('cursorGlow');
+      var cursorDot  = document.getElementById('cursorDot');
+      var glowX = window.innerWidth / 2, glowY = window.innerHeight / 2;
+      var dotX = glowX, dotY = glowY;
+      var targetX = glowX, targetY = glowY;
+
+      window.addEventListener('mousemove', function (e) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+      });
+
+      function animateCursor() {
+        glowX += (targetX - glowX) * 0.16;
+        glowY += (targetY - glowY) * 0.16;
+        dotX  += (targetX - dotX)  * 0.45;
+        dotY  += (targetY - dotY)  * 0.45;
+        cursorGlow.style.transform = 'translate(' + glowX + 'px,' + glowY + 'px) translate(-50%,-50%)';
+        cursorDot.style.transform  = 'translate(' + dotX  + 'px,' + dotY  + 'px) translate(-50%,-50%)';
+        requestAnimationFrame(animateCursor);
+      }
+      requestAnimationFrame(animateCursor);
+
+      var hoverSelector = 'a, button, .skill-card, .chip, .carousel-dot, .modal-close, .phone, .theme-toggle, .hamburger, input, textarea, [onclick]';
+      document.addEventListener('mouseover', function (e) {
+        if (e.target.closest && e.target.closest(hoverSelector)) {
+          document.body.classList.add('cursor-hover');
+        }
+      });
+      document.addEventListener('mouseout', function (e) {
+        if (e.target.closest && e.target.closest(hoverSelector)) {
+          document.body.classList.remove('cursor-hover');
+        }
+      });
+      document.addEventListener('mousedown', function () { document.body.classList.add('cursor-active'); });
+      document.addEventListener('mouseup',   function () { document.body.classList.remove('cursor-active'); });
+      document.addEventListener('mouseleave', function () {
+        cursorGlow.style.opacity = '0';
+        cursorDot.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', function () {
+        cursorGlow.style.opacity = '1';
+        cursorDot.style.opacity = '1';
+      });
+    }
+
     // 6. DYNAMIC STATUS BAR COLOR (skipped in lite mode — no rAF loop needed)
     if (isLite) return;
 
@@ -1095,7 +1404,9 @@
     function rgbToHex(c)   { return '#' + c.map(function (x) { return Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, '0'); }).join(''); }
     function mix(base, tint, amt) { return base.map(function (c, i) { return c + (tint[i] - c) * amt; }); }
 
-    var baseDark   = hexToRgb('#0a0a0f');
+    function getBaseRgb() {
+      return document.documentElement.classList.contains('light') ? hexToRgb('#eef0f5') : hexToRgb('#0a0a0f');
+    }
     var blueTint   = hexToRgb('#3b82f6');
     var coralTint  = hexToRgb('#f43f5e');
     var violetTint = hexToRgb('#8b5cf6');
@@ -1108,7 +1419,7 @@
       var wViolet = 0.12 * (0.5 + 0.5 * Math.sin((2 * Math.PI * t) / 32000 + 4));
       var heroHeight  = heroEl ? heroEl.offsetHeight : window.innerHeight;
       var scrollFactor = Math.max(0, 1 - window.scrollY / heroHeight);
-      var rgb = mix(baseDark, blueTint,   wBlue   * scrollFactor);
+      var rgb = mix(getBaseRgb(), blueTint,   wBlue   * scrollFactor);
       rgb      = mix(rgb,      coralTint,  wCoral  * scrollFactor);
       rgb      = mix(rgb,      violetTint, wViolet * scrollFactor);
       themeMeta.setAttribute('content', rgbToHex(rgb));
