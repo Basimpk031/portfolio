@@ -91,7 +91,52 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+/* ================= LIQUID GLASS SCROLLBARS ================= */
+  /* Firefox Support */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.4) transparent;
+  }
+  
+  /* WebKit (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+    margin: 30px; /* Adds breathing room so it doesn't hit the absolute edges of the modals */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.5), rgba(139, 92, 246, 0.5), rgba(244, 63, 94, 0.5));
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    transition: background 0.3s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.8), rgba(139, 92, 246, 0.8), rgba(244, 63, 94, 0.8));
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Light Mode Adaption */
+  :root.light * {
+    scrollbar-color: rgba(139, 92, 246, 0.6) transparent;
+  }
+  
+  :root.light ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.4), rgba(244, 63, 94, 0.4));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8);
+  }
+  
+  :root.light ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.6), rgba(124, 58, 237, 0.6), rgba(225, 29, 72, 0.6));
+  }
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 100px; /* Offset for sticky nav when anchor links or JS scrolling is triggered */
@@ -357,13 +402,17 @@
   @media (hover: none), (pointer: coarse) {
     .cursor-glow, .cursor-dot { display: none !important; }
   }
-
-  /* ================= HERO & PROFILE PIC ================= */
+/* ================= HERO & PROFILE PIC ================= */
   .hero {
-    padding: calc(10.5rem + env(safe-area-inset-top)) 0 7rem; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; position: relative;
+    /* Changed align-items to flex-start so content anchors to the top instead of dead center */
+    padding: calc(9rem + env(safe-area-inset-top)) 0 4rem; 
+    min-height: 100vh; 
+    min-height: 100dvh; 
+    display: flex; 
+    align-items: flex-start; 
+    position: relative;
   }
-  .hero .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-  
+  .hero .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; width: 100%; }
   .profile-pic {
     display: block; 
     width: 85px; 
@@ -486,6 +535,14 @@
   .phone-stage {
     position: relative; height: 620px; display: flex; justify-content: center; align-items: center;
     perspective: 1400px;
+  }
+  
+  /* Scale down the 3D phones on laptops so they don't get cut off at the bottom */
+  @media (min-width: 901px) {
+    .phone-stage {
+      transform: scale(0.85);
+      transform-origin: top center;
+    }
   }
   .phone {
     width: 248px; height: 536px; position: absolute; border-radius: 46px;
@@ -713,6 +770,19 @@
   @media (max-width: 900px) {
     .skills-grid { perspective: none !important; } /* Fixes card hitbox overlap on phones */
     
+    /* FIX: Forces all galleries (like CCNA and Education) to be 1 column on mobile so images are bigger */
+    .modal-gallery {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* FIX: Override inline styles causing tiny education images */
+    .modal-content { 
+      grid-template-columns: 1fr !important; 
+      padding: 4.5rem 1.5rem 2.5rem 1.5rem;
+      height: 85vh; overflow-y: auto; gap: 2rem; 
+      transform-style: flat !important;
+    }
+
     .nav { width: calc(100% - 1.5rem); padding: 0.7rem 1.25rem; top: max(1rem, env(safe-area-inset-top)); }
     
     .hamburger { display: flex; }
@@ -773,12 +843,6 @@
     .skill-card > * { transform: none !important; }
     .skill-card:active { transform: translateY(-6px) scale(0.97) !important; }
     
-    .modal-content { 
-      grid-template-columns: 1fr; 
-      padding: 4.5rem 1.5rem 2.5rem 1.5rem;
-      height: 85vh; overflow-y: auto; gap: 2rem; 
-      transform-style: flat !important;
-    }
     .modal-close { top: 12px; right: 12px; }
 
     .back-to-top { bottom: 1.5rem; right: 1.5rem; width: 42px; height: 42px; }
@@ -947,6 +1011,25 @@
     background: rgba(255, 255, 255, 0.95) !important;
   }
 
+  /* Massive optimization for phone carousel in lite mode (Poco X3 lag fix) */
+  .lite .phone {
+    animation: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    filter: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    transition: transform 0.25s ease-out, opacity 0.25s ease-out !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+  }
+  
+  .lite .phone::after, .lite .phone::before {
+    display: none !important;
+  }
+  
+  .lite .pos-1 {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+  }
+
   /* ================= PERSONAL BACKGROUND PILL BUTTON ================= */
   .bg-pill-btn {
     position: relative;
@@ -1080,6 +1163,50 @@
     #bg-modal .modal-content { padding: 3.5rem 1.2rem 1.6rem !important; }
     #bg-modal .modal-content > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
   }
+  /* ================= DESKTOP / LAPTOP LAYOUT OVERRIDE ================= */
+  @media (min-width: 901px) {
+    /* 1. Force the main hero section to anchor to the top */
+    .hero {
+      padding-top: calc(8rem + env(safe-area-inset-top)) !important;
+      align-items: flex-start !important;
+    }
+    
+    /* 2. Force the inner grid containing your text and phones to also anchor top */
+    .hero .wrap {
+      align-items: flex-start !important;
+      padding-top: 2rem !important;
+    }
+    
+    /* 3. Scale the phones and push them downwards */
+    .phone-stage {
+      transform: scale(0.9) !important; /* Increased size from 0.8 to 0.9 */
+      transform-origin: top center !important;
+      margin-top: 4.5rem !important; /* Pushes the carousel down the screen */
+    }
+  }
+/* ================= LIQUID GLASS SCROLLBARS ================= */
+  ::-webkit-scrollbar {
+    width: 8px; 
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02); 
+    border-radius: 10px;
+    margin: 10px 0; /* Slight margin for the inner container */
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.6), rgba(139, 92, 246, 0.6), rgba(244, 63, 94, 0.6));
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.9), rgba(139, 92, 246, 0.9), rgba(244, 63, 94, 0.9));
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.7);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.6) transparent;
+  }
 
 </style>
 <noscript>
@@ -1134,7 +1261,7 @@
     <div class="hero-copy">
       <div class="eyebrow">Portfolio — 2026</div>
       <img src="images/my-profile.jpg" alt="Muhammed Basim" class="profile-pic">
-      <h1>Hi, I'm Muhammed Basim. 👋<br>I craft <span class="hl-blue">web experiences</span> and build <span class="hl-coral">applications</span>.</h1>
+      <h1>Hi, I'm Muhammed Basim. 👋<br>I craft <span class="hl-blue">web experiences</span> & build <span class="hl-coral">applications</span>.</h1>
       <p>Welcome to my page! I'm a web developer and IT Infrastructure student with a passion for creating clean, responsive, and interactive websites. From designing seamless frontend interfaces with HTML, CSS, and JavaScript to handling backend logic and exploring cloud networking, I love bringing ideas to life on the web.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Get in touch →</a>
@@ -1363,7 +1490,7 @@
       <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">CCNA Certifications</h2>
       <p style="color: var(--text-muted); font-size: 1.2rem;">Cisco Networking Academy</p>
     </div>
-    <div class="modal-gallery">
+    <div class="modal-gallery" style="grid-template-columns: 1fr; max-width: 700px; margin: 0 auto;">
       <img src="images/net.png" alt="Networking Certificate" loading="lazy">
       <img src="images/get.png" alt="Getting Started Certificate" loading="lazy">
       <img src="images/swi.png" alt="Switching Certificate" loading="lazy">
@@ -1373,14 +1500,82 @@
 </div>
 
 <div id="languages-modal" class="modal modal-simple">
-  <div class="modal-content" style="max-width: 450px;">
+  <style>
+    .lang-row {
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 1.2rem 1.5rem; border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s var(--ease-liquid), border-color 0.3s, background 0.3s;
+      cursor: default;
+    }
+    :root.light .lang-row {
+      background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+    .lang-row:hover { 
+      transform: translateX(8px); 
+      background: rgba(255,255,255,0.08); 
+    }
+    :root.light .lang-row:hover { 
+      background: #ffffff; 
+      border-color: rgba(0,0,0,0.15);
+    }
+    
+    .lang-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .lang-name { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-left: 1rem; }
+    .lang-badge { 
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+      padding: 0.3rem 0.8rem; border-radius: 99px;
+    }
+  </style>
+
+  <!-- ADDED "display: block !important;" HERE TO FIX THE STRETCHING -->
+  <div class="modal-content" style="max-width: 500px; padding: 3.5rem 2.5rem; text-align: left; display: block !important;">
     <div class="modal-close" onclick="closeModal()">×</div>
-    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Languages</h2>
-    <div class="chip-row" style="justify-content: center; gap: 1rem;">
-      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">English</span>
-      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Malayalam</span>
-      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Hindi</span>
-      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Tamil</span>
+    
+    <h2 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Languages</h2>
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;">My communication proficiencies.</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- English Row -->
+      <div class="lang-row" style="border-left: 3px solid var(--accent-blue-light);" onmouseover="this.style.borderColor='var(--accent-blue-light)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <div style="display: flex; align-items: center;">
+          <span class="lang-dot" style="background: var(--accent-blue-light); box-shadow: 0 0 12px var(--accent-blue-light);"></span>
+          <span class="lang-name">English</span>
+        </div>
+        <span class="lang-badge" style="color: var(--accent-blue-light); background: rgba(96, 165, 250, 0.15);">Fluent</span>
+      </div>
+
+      <!-- Malayalam Row -->
+      <div class="lang-row" style="border-left: 3px solid var(--accent-violet-light);" onmouseover="this.style.borderColor='var(--accent-violet-light)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <div style="display: flex; align-items: center;">
+          <span class="lang-dot" style="background: var(--accent-violet-light); box-shadow: 0 0 12px var(--accent-violet-light);"></span>
+          <span class="lang-name">Malayalam</span>
+        </div>
+        <span class="lang-badge" style="color: var(--accent-violet-light); background: rgba(139, 92, 246, 0.15);">Native</span>
+      </div>
+
+      <!-- Hindi Row -->
+      <div class="lang-row" style="border-left: 3px solid var(--accent-coral-light);" onmouseover="this.style.borderColor='var(--accent-coral-light)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <div style="display: flex; align-items: center;">
+          <span class="lang-dot" style="background: var(--accent-coral-light); box-shadow: 0 0 12px var(--accent-coral-light);"></span>
+          <span class="lang-name">Hindi</span>
+        </div>
+        <span class="lang-badge" style="color: var(--accent-coral-light); background: rgba(244, 63, 94, 0.15);">Fluent</span>
+      </div>
+
+      <!-- Tamil Row -->
+      <div class="lang-row" style="border-left: 3px solid var(--accent-teal);" onmouseover="this.style.borderColor='var(--accent-teal)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <div style="display: flex; align-items: center;">
+          <span class="lang-dot" style="background: var(--accent-teal); box-shadow: 0 0 12px var(--accent-teal);"></span>
+          <span class="lang-name">Tamil</span>
+        </div>
+        <span class="lang-badge" style="color: var(--accent-teal); background: rgba(34, 211, 238, 0.15);">Working</span>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1670,16 +1865,30 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    // Attach click events to images for the sleek zoom view (ignoring phone carousel)
+    // 1. Add zoom cursor ONLY to valid images (ignoring cards and profile pics)
     document.querySelectorAll('img').forEach(function(img) {
-      if (img.closest('.phone')) return; // Ignore phone carousel images
-      
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', function(e) {
-        e.stopPropagation(); // Stop the card modal from opening simultaneously
-        openImageZoom(this.src);
-      });
+      if (!img.closest('.phone') && !img.closest('.skill-card') && !img.classList.contains('profile-pic')) {
+        img.style.cursor = 'zoom-in';
+      }
     });
+
+    // 2. Centralized click handler for zooming (Fixes mobile touch bubbling bugs)
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName && e.target.tagName.toLowerCase() === 'img') {
+        // Ignore the phone carousel, the zoom image itself, profile pics, and skill card thumbnails
+        if (e.target.closest('.phone') || 
+            e.target.id === 'zoomed-image' || 
+            e.target.classList.contains('profile-pic') ||
+            e.target.closest('.skill-card')) {
+          return;
+        }
+        
+        // Stop the click from opening modals in the background
+        e.preventDefault();
+        e.stopPropagation();
+        openImageZoom(e.target.src);
+      }
+    }, true); // Use capture phase for immediate interception
 
     // Close zoom when clicking outside the zoomed image
     document.getElementById('image-zoom-overlay').addEventListener('click', function(e) {
