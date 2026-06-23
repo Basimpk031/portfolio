@@ -83,7 +83,7 @@
 
   /* Enhanced contrast for light mode cards */
   :root.light .skill-card,
-  :root.light .stat-card {
+  :root.light .orbit-node {
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
       border-color: rgba(20, 21, 26, 0.1);
       box-shadow: 0 8px 24px rgba(20, 21, 26, 0.08);
@@ -467,69 +467,167 @@
   .hero-meta span { display: inline-block; transition: transform 0.3s var(--ease-liquid), color 0.3s; cursor: default; }
   .hero-meta span:hover { transform: translateY(-3px) scale(1.06); color: var(--text-main); }
 
-  /* ================= 2x2 STATS GRID ================= */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 3.5rem;
+  /* ================= ORBIT STATS ================= */
+  .stats-orbit {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 3.5rem auto 0;
+    flex-shrink: 0;
   }
-  
-  .stat-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+  .orbit-ring-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: orbitRingSpin 30s linear infinite;
+  }
+  @keyframes orbitRingSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .orbit-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 74px; height: 74px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 2.5rem 1.5rem;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: var(--glass-rim-top), var(--glass-rim-bottom), 0 10px 28px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 3;
+  }
+
+  .orbit-center-logo {
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 45%, #64748b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,0.7));
+    line-height: 1;
+  }
+  .orbit-center-logo span {
+    background: linear-gradient(135deg, var(--accent-coral-light), var(--accent-coral));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .orbit-arm {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 110px;
+    height: 1px;
+    transform-origin: 0 50%;
+    transform: rotate(-90deg);
+    transition: transform 0.75s var(--ease-liquid);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .orbit-dot {
+    position: absolute;
+    right: -8px; top: -8px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent-coral);
+    box-shadow: 0 0 0 3px rgba(244,63,94,0.25), 0 0 14px rgba(244,63,94,0.7);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .orbit-node {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-rim-top), 0 8px 20px rgba(0,0,0,0.25);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
     text-align: center;
     cursor: pointer;
-    box-shadow: inset 0 2px 2px rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
-    transition: transform 0.4s var(--ease-liquid), box-shadow 0.4s, border-color 0.4s;
-    animation: floatStat 5s ease-in-out infinite;
+    transition:
+      border-color 0.5s var(--ease-liquid),
+      box-shadow   0.5s var(--ease-liquid),
+      transform    0.5s var(--ease-liquid);
+    z-index: 2;
   }
-  
-  @keyframes floatStat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  
-  /* Stagger the floating animation so they move randomly */
-  .stat-card:nth-child(1) { animation-delay: 0s; border-bottom: 2px solid rgba(244, 63, 94, 0.4); } /* Coral */
-  .stat-card:nth-child(2) { animation-delay: -1.2s; border-bottom: 2px solid rgba(139, 92, 246, 0.4); } /* Violet */
-  .stat-card:nth-child(3) { animation-delay: -2.4s; border-bottom: 2px solid rgba(59, 130, 246, 0.4); } /* Blue */
-  .stat-card:nth-child(4) { animation-delay: -3.6s; border-bottom: 2px solid rgba(34, 211, 238, 0.4); } /* Teal */
 
-  .stat-card:hover {
-    transform: translateY(-8px) scale(1.03) !important;
-    animation-play-state: paused;
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 15px 30px rgba(0,0,0,0.4);
+  .orbit-node-top    { top: 0;    left: 50%;  transform: translateX(-50%); }
+  .orbit-node-right  { top: 50%;  right: 0;   transform: translateY(-50%); }
+  .orbit-node-bottom { bottom: 0; left: 50%;  transform: translateX(-50%); }
+  .orbit-node-left   { top: 50%;  left: 0;    transform: translateY(-50%); }
+
+  .orbit-node-top.active    { transform: translateX(-50%) scale(1.1); }
+  .orbit-node-right.active  { transform: translateY(-50%) scale(1.1); }
+  .orbit-node-bottom.active { transform: translateX(-50%) scale(1.1); }
+  .orbit-node-left.active   { transform: translateY(-50%) scale(1.1); }
+
+  .orbit-node[data-color="coral"].active  { border-color: rgba(244,63,94,0.7);  box-shadow: var(--glass-rim-top), 0 0 0 3px rgba(244,63,94,0.15),  0 0 22px rgba(244,63,94,0.45),  0 8px 24px rgba(0,0,0,0.3); }
+  .orbit-node[data-color="violet"].active { border-color: rgba(139,92,246,0.7); box-shadow: var(--glass-rim-top), 0 0 0 3px rgba(139,92,246,0.15), 0 0 22px rgba(139,92,246,0.45), 0 8px 24px rgba(0,0,0,0.3); }
+  .orbit-node[data-color="blue"].active   { border-color: rgba(59,130,246,0.7); box-shadow: var(--glass-rim-top), 0 0 0 3px rgba(59,130,246,0.15),  0 0 22px rgba(59,130,246,0.45),  0 8px 24px rgba(0,0,0,0.3); }
+  .orbit-node[data-color="teal"].active   { border-color: rgba(34,211,238,0.7); box-shadow: var(--glass-rim-top), 0 0 0 3px rgba(34,211,238,0.15),  0 0 22px rgba(34,211,238,0.45),  0 8px 24px rgba(0,0,0,0.3); }
+
+  .orbit-node.active::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    animation: orbitNodePulse 1.5s ease-out infinite;
+    opacity: 0;
   }
-  .stat-card:active {
-    transform: scale(0.96) !important;
-    transition-duration: 0.1s;
+  .orbit-node[data-color="coral"].active::before  { border: 1px solid rgba(244,63,94,0.6); }
+  .orbit-node[data-color="violet"].active::before { border: 1px solid rgba(139,92,246,0.6); }
+  .orbit-node[data-color="blue"].active::before   { border: 1px solid rgba(59,130,246,0.6); }
+  .orbit-node[data-color="teal"].active::before   { border: 1px solid rgba(34,211,238,0.6); }
+
+  @keyframes orbitNodePulse {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
   }
-  
-  .stat-value {
-    font-size: 3.2rem;
+
+  .orbit-node-val {
+    font-size: 1.35rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
+    line-height: 1;
     background: linear-gradient(135deg, #ffffff, #a5b4fc);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    margin-bottom: 3px;
   }
-  .stat-value.text-val {
-    font-size: 2.6rem;
-    line-height: 1.2;
-    margin-top: 0.5rem;
-  }
-  .stat-label {
-    font-size: 1.05rem;
+  .orbit-node-val.text-sm { font-size: 0.95rem; }
+
+  .orbit-node-lbl {
+    font-size: 0.52rem;
     font-weight: 600;
-    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.7px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  :root.light .orbit-center,
+  :root.light .orbit-node {
+    background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.7));
+    box-shadow: 0 8px 24px rgba(20,21,26,0.08);
+  }
+  :root.light .orbit-center-logo {
+    background: linear-gradient(180deg, #14151a 0%, #3a3d46 50%, #64748b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 2px 2px rgba(20,21,26,0.15));
   }
 
   /* ================= PHONE CAROUSEL ================= */
@@ -838,12 +936,16 @@
         height: 100px;
     }
     
-    /* MOBILE STATS SCALING */
-    .stats-grid { gap: 1rem; margin-top: 2.5rem; }
-    .stat-card { padding: 1.5rem 1rem; border-radius: 20px; }
-    .stat-value { font-size: 2.2rem; margin-bottom: 0.2rem; }
-    .stat-value.text-val { font-size: 1.8rem; margin-top: 0.3rem; }
-    .stat-label { font-size: 0.85rem; }
+    /* MOBILE ORBIT STATS SCALING */
+    .stats-orbit { width: 260px; height: 260px; margin-top: 2.5rem; }
+    .orbit-node  { width: 68px; height: 68px; }
+    .orbit-node-val { font-size: 1.15rem; }
+    .orbit-node-val.text-sm { font-size: 0.85rem; }
+    .orbit-node-lbl { font-size: 0.48rem; }
+    .orbit-center { width: 62px; height: 62px; }
+    .orbit-center-logo { font-size: 1.6rem; }
+    .orbit-arm { width: 96px; }
+    .orbit-dot { width: 14px; height: 14px; right: -7px; top: -7px; }
     
     /* FIX: Bring the 3D phones closer together so they don't clip off the screen */
     .phone-stage { height: 450px; margin-top: 3rem; transform: scale(0.75); }
@@ -861,7 +963,7 @@
 
   /* Respect reduced-motion preference */
   @media (prefers-reduced-motion: reduce) {
-    .nav-cta, .btn, .skill-card, .pos-1, .stat-card { animation: none !important; }
+    .nav-cta, .btn, .skill-card, .pos-1, .orbit-ring-svg, .orbit-node.active::before { animation: none !important; }
   }
 
   /* ================= LITE MODE — low-end Android performance fix ================= */
@@ -915,7 +1017,8 @@
 
   /* Full fallback for lite + light mode (the ultimate readability fix) */
   .lite.light .skill-card,
-  .lite.light .stat-card,
+  .lite.light .orbit-node,
+  .lite.light .orbit-center,
   .lite.light .modal-content {
       background: #ffffff !important;
       border-color: rgba(0, 0, 0, 0.1) !important;
@@ -1006,12 +1109,14 @@
     -webkit-backdrop-filter: none !important;
   }
   
-  .lite .stat-card {
-    animation: none !important;
+  .lite .orbit-node,
+  .lite .orbit-center {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(255,255,255,0.06) !important;
   }
+  .lite .orbit-ring-svg { animation: none !important; }
+  .lite .orbit-node.active::before { animation: none !important; }
   
   .lite .back-to-top {
     backdrop-filter: none !important;
@@ -1266,23 +1371,52 @@
         <span onclick="openModal('bg-modal')" class="bg-pill-btn" style="margin-top: 0.8rem;" title="Learn more about me"><span class="bg-pill-shimmer"></span><span class="bg-pill-icon">🙋</span><span class="bg-pill-label">Personal Background</span><span class="bg-pill-arrow">↗</span></span>
       </div>
       
-      <div class="stats-grid reveal">
-        <div class="stat-card" onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})">
-          <div class="stat-value">3+</div>
-          <div class="stat-label">Projects Built</div>
+      <div class="stats-orbit reveal">
+
+        <!-- Slowly rotating dashed orbit ring -->
+        <svg class="orbit-ring-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="150" cy="150" r="110" fill="none"
+            stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="5 8"/>
+        </svg>
+
+        <!-- Traveling dot arm -->
+        <div class="orbit-arm" id="orbitArm">
+          <div class="orbit-dot" id="orbitDot"></div>
         </div>
-        <div class="stat-card" onclick="openModal('cgpa-modal')">
-          <div class="stat-value">8.9+</div>
-          <div class="stat-label">Overall CGPA</div>
+
+        <!-- Center Profile Image -->
+        <div class="orbit-center">
+          <img src="images/my-profile.jpg" alt="Muhammed Basim" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
         </div>
-        <div class="stat-card" onclick="openModal('ccna-modal')">
-          <div class="stat-value text-val">CCNA</div>
-          <div class="stat-label">Cisco Certified</div>
+
+        <!-- Top: Projects -->
+        <div class="orbit-node orbit-node-top" data-color="coral"
+             onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
+          <div class="orbit-node-val">3+</div>
+          <div class="orbit-node-lbl">Projects<br>Built</div>
         </div>
-        <div class="stat-card" onclick="openModal('languages-modal')">
-          <div class="stat-value">4</div>
-          <div class="stat-label">Languages Spoken</div>
+
+        <!-- Right: CGPA -->
+        <div class="orbit-node orbit-node-right" data-color="violet"
+             onclick="openModal('cgpa-modal')">
+          <div class="orbit-node-val">8.9+</div>
+          <div class="orbit-node-lbl">Overall<br>CGPA</div>
         </div>
+
+        <!-- Bottom: CCNA -->
+        <div class="orbit-node orbit-node-bottom" data-color="blue"
+             onclick="openModal('ccna-modal')">
+          <div class="orbit-node-val text-sm">CCNA</div>
+          <div class="orbit-node-lbl">Cisco<br>Certified</div>
+        </div>
+
+        <!-- Left: Languages -->
+        <div class="orbit-node orbit-node-left" data-color="teal"
+             onclick="openModal('languages-modal')">
+          <div class="orbit-node-val">4</div>
+          <div class="orbit-node-lbl">Languages<br>Spoken</div>
+        </div>
+
       </div>
 
     </div>
@@ -1922,7 +2056,7 @@
     });
 
     // 2b. PRESS FEEDBACK
-    var clickableSelectors = '.skill-card, .btn, .nav-cta, .nav-links a, .modal-close, .chip, .carousel-dot, .stat-card';
+    var clickableSelectors = '.skill-card, .btn, .nav-cta, .nav-links a, .modal-close, .chip, .carousel-dot, .orbit-node';
     document.querySelectorAll(clickableSelectors).forEach(function (el) {
       el.addEventListener('pointerdown',  function () { el.classList.add('is-pressed'); });
       el.addEventListener('pointerup',    function () { el.classList.remove('is-pressed'); });
@@ -2193,7 +2327,7 @@
       }
       requestAnimationFrame(animateCursor);
 
-      var hoverSelector = 'a, button, .skill-card, .chip, .carousel-dot, .modal-close, .phone, .theme-toggle, .hamburger, input, textarea, [onclick]';
+      var hoverSelector = 'a, button, .skill-card, .orbit-node, .chip, .carousel-dot, .modal-close, .phone, .theme-toggle, .hamburger, input, textarea, [onclick]';
       document.addEventListener('mouseover', function (e) {
         if (e.target.closest && e.target.closest(hoverSelector)) {
           document.body.classList.add('cursor-hover');
@@ -2248,6 +2382,45 @@
     updateThemeColor();
     setInterval(updateThemeColor, 400);
     window.addEventListener('scroll', updateThemeColor, { passive: true });
+
+    // ─── ORBIT STATS ANIMATION ────────────────────────────────────────────────
+    var orbitArm   = document.getElementById('orbitArm');
+    var orbitDot   = document.getElementById('orbitDot');
+    var orbitNodes = document.querySelectorAll('.orbit-node');
+
+    if (orbitArm && orbitNodes.length === 4) {
+      var ORBIT_COLORS = {
+        coral:  { bg: '#f43f5e', glow: '0 0 0 3px rgba(244,63,94,0.25), 0 0 16px rgba(244,63,94,0.8)' },
+        violet: { bg: '#8b5cf6', glow: '0 0 0 3px rgba(139,92,246,0.25), 0 0 16px rgba(139,92,246,0.8)' },
+        blue:   { bg: '#3b82f6', glow: '0 0 0 3px rgba(59,130,246,0.25), 0 0 16px rgba(59,130,246,0.8)' },
+        teal:   { bg: '#22d3ee', glow: '0 0 0 3px rgba(34,211,238,0.25), 0 0 16px rgba(34,211,238,0.8)' }
+      };
+
+      var orbitAngle  = -90; // starts pointing up at top node
+      var orbitActive = 0;
+
+      function activateOrbitNode(idx) {
+        orbitNodes.forEach(function (n) { n.classList.remove('active'); });
+        var node  = orbitNodes[idx];
+        var color = node.getAttribute('data-color');
+        var c     = ORBIT_COLORS[color];
+        node.classList.add('active');
+        if (c) {
+          orbitDot.style.background = c.bg;
+          orbitDot.style.boxShadow  = c.glow;
+        }
+      }
+
+      function stepOrbit() {
+        orbitActive = (orbitActive + 1) % 4;
+        orbitAngle += 90;
+        orbitArm.style.transform = 'rotate(' + orbitAngle + 'deg)';
+        activateOrbitNode(orbitActive);
+      }
+
+      activateOrbitNode(0);
+      setInterval(stepOrbit, 3000);
+    }
   });
 </script>
 </body>
