@@ -293,37 +293,28 @@
 
   /* ================= THEME TOGGLE ================= */
   .theme-toggle {
-    position: relative; width: 52px; height: 30px; border-radius: var(--r-pill); cursor: pointer;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    position: relative; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.01));
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-rim-top), inset 0 -1px 2px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.25);
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    display: flex; align-items: center; padding: 3px;
+    display: flex; align-items: center; justify-content: center;
     transition: background 0.4s var(--ease-liquid), box-shadow 0.3s, transform 0.3s var(--ease-liquid);
-    flex-shrink: 0;
+    flex-shrink: 0; color: var(--text-main);
   }
-  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle:hover { transform: scale(1.1) rotate(-8deg); box-shadow: var(--glass-rim-top), 0 10px 25px rgba(59,130,246,0.4); border-color: rgba(255,255,255,0.3); }
   .theme-toggle:active { transform: scale(0.92); }
-  .theme-toggle .toggle-knob {
-    width: 22px; height: 22px; border-radius: 50%; position: relative; z-index: 2;
-    background: linear-gradient(160deg, #ffffff, #c9d4e6 60%, #94a3b8);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.8);
-    transform: translateX(0);
-    transition: transform 0.45s var(--ease-liquid), background 0.45s;
-    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
-  }
-  :root.light .theme-toggle .toggle-knob {
-    transform: translateX(22px);
-    background: linear-gradient(160deg, #fff7e0, #ffd76b 60%, #f5a623);
-    box-shadow: 0 3px 10px rgba(245, 166, 35, 0.5), inset 0 1px 1px rgba(255,255,255,0.9);
-  }
+  
   :root.light .theme-toggle {
-    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+    box-shadow: 0 4px 15px rgba(245, 166, 35, 0.25), inset 0 1px 1px rgba(255,255,255,0.9);
+    color: #f5a623; border-color: rgba(245, 166, 35, 0.3);
   }
+  .theme-toggle svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.5s var(--ease-liquid); }
 
   /* ================= CUSTOM LIQUID-GLASS CURSOR ================= */
   .cursor-glow, .cursor-dot {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; /* Increased to stay above modals */
     border-radius: 50%; will-change: transform; transform: translate(-50%, -50%);
   }
   .cursor-glow {
@@ -400,9 +391,74 @@
     50% { transform: translateY(-5px); }
   }
 
-  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); padding-top: 1.5rem; }
   .hero-meta span { display: inline-block; transition: transform 0.3s var(--ease-liquid), color 0.3s; cursor: default; }
   .hero-meta span:hover { transform: translateY(-3px) scale(1.06); color: var(--text-main); }
+
+  /* ================= 2x2 STATS GRID ================= */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  
+  .stat-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: inset 0 2px 2px rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.4s var(--ease-liquid), box-shadow 0.4s, border-color 0.4s;
+    animation: floatStat 5s ease-in-out infinite;
+  }
+  
+  @keyframes floatStat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  
+  /* Stagger the floating animation so they move randomly */
+  .stat-card:nth-child(1) { animation-delay: 0s; border-bottom: 2px solid rgba(244, 63, 94, 0.4); } /* Coral */
+  .stat-card:nth-child(2) { animation-delay: -1.2s; border-bottom: 2px solid rgba(139, 92, 246, 0.4); } /* Violet */
+  .stat-card:nth-child(3) { animation-delay: -2.4s; border-bottom: 2px solid rgba(59, 130, 246, 0.4); } /* Blue */
+  .stat-card:nth-child(4) { animation-delay: -3.6s; border-bottom: 2px solid rgba(34, 211, 238, 0.4); } /* Teal */
+
+  .stat-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    animation-play-state: paused;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 15px 30px rgba(0,0,0,0.4);
+  }
+  .stat-card:active {
+    transform: scale(0.96) !important;
+    transition-duration: 0.1s;
+  }
+  
+  .stat-value {
+    font-size: 3.2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #ffffff, #a5b4fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stat-value.text-val {
+    font-size: 2.6rem;
+    line-height: 1.2;
+    margin-top: 0.5rem;
+  }
+  .stat-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 
   /* ================= PHONE CAROUSEL ================= */
   .phone-stage {
@@ -593,6 +649,41 @@
   .modal-gallery img { width: 100%; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: transform 0.4s var(--ease-liquid); }
   .modal-gallery img:hover { transform: scale(1.04) translateY(-4px); }
 
+  /* ================= BACK TO TOP ================= */
+  .back-to-top {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 90;
+    width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.01));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-rim-top), inset 0 -1px 2px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.25);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-main);
+    opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.9);
+    transition: all 0.4s var(--ease-liquid);
+  }
+  .back-to-top.show {
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+  }
+  .back-to-top:hover {
+    transform: translateY(-6px) scale(1.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: var(--glass-rim-top), 0 12px 24px rgba(59, 130, 246, 0.3);
+    color: var(--accent-blue-light);
+  }
+  .back-to-top:active { transform: translateY(0) scale(0.95); }
+  .back-to-top svg { width: 22px; height: 22px; transition: transform 0.3s; }
+  .back-to-top:hover svg { transform: translateY(-3px); }
+
+  :root.light .back-to-top {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255,255,255,0.9);
+  }
+  :root.light .back-to-top:hover {
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-blue-light);
+  }
+
   /* ================= RESPONSIVE AND BUG FIXES ================= */
   @media (max-width: 900px) {
     .nav { width: calc(100% - 1.5rem); padding: 0.7rem 1.25rem; top: max(1rem, env(safe-area-inset-top)); }
@@ -632,6 +723,13 @@
     .hero-ctas { justify-content: center; }
     .hero-meta { justify-content: center; }
     
+    /* MOBILE STATS SCALING */
+    .stats-grid { gap: 1rem; margin-top: 2.5rem; }
+    .stat-card { padding: 1.5rem 1rem; border-radius: 20px; }
+    .stat-value { font-size: 2.2rem; margin-bottom: 0.2rem; }
+    .stat-value.text-val { font-size: 1.8rem; margin-top: 0.3rem; }
+    .stat-label { font-size: 0.85rem; }
+    
     /* FIX: Bring the 3D phones closer together so they don't clip off the screen */
     .phone-stage { height: 450px; margin-top: 3rem; transform: scale(0.75); }
     .pos-2 { transform: translateX(110px) translateY(28px) scale(0.82) rotateY(-16deg); }
@@ -654,11 +752,13 @@
       transform-style: flat !important;
     }
     .modal-close { top: 12px; right: 12px; }
+
+    .back-to-top { bottom: 1.5rem; right: 1.5rem; width: 42px; height: 42px; }
   }
 
   /* Respect reduced-motion preference */
   @media (prefers-reduced-motion: reduce) {
-    .nav-cta, .btn, .skill-card, .pos-1 { animation: none !important; }
+    .nav-cta, .btn, .skill-card, .pos-1, .stat-card { animation: none !important; }
   }
 
   /* ================= LITE MODE — low-end Android performance fix ================= */
@@ -784,30 +884,155 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-
-  /* Simplify phone carousel for lite mode: flat 2D, fast transitions, no expensive shadows or overlays */
-  .lite .phone {
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
-  }
-  .lite .phone::after, 
-  .lite .phone::before {
-    display: none !important;
-  }
-  .lite .pos-1 {
-    transform: translateX(0) scale(1) !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+  
+  .lite .stat-card {
     animation: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,0.06) !important;
   }
-  .lite .pos-2 {
-    transform: translateX(110px) scale(0.85) !important;
-    box-shadow: none !important;
+  
+  .lite .back-to-top {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(30, 30, 40, 0.95) !important;
   }
-  .lite .pos-3 {
-    transform: translateX(0) scale(0.75) !important;
+  .lite.light .back-to-top {
+    background: rgba(255, 255, 255, 0.95) !important;
   }
-  .lite .pos-4 {
-    transform: translateX(-110px) scale(0.85) !important;
-    box-shadow: none !important;
+
+  /* ================= PERSONAL BACKGROUND PILL BUTTON ================= */
+  .bg-pill-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 1.1rem 0.42rem 0.7rem;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #fff;
+    background: linear-gradient(
+      135deg,
+      rgba(96, 165, 250, 0.22) 0%,
+      rgba(139, 92, 246, 0.20) 50%,
+      rgba(244, 63, 94, 0.15) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.45),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+      0 0 18px rgba(96, 165, 250, 0.30),
+      0 0 38px rgba(139, 92, 246, 0.15),
+      0 6px 18px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(18px) saturate(200%);
+    -webkit-backdrop-filter: blur(18px) saturate(200%);
+    animation: bgPillPulse 3s ease-in-out infinite;
+    transition: transform 0.35s var(--ease-liquid), box-shadow 0.35s var(--ease-liquid), border-color 0.35s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  :root.light .bg-pill-btn {
+    color: #14151a;
+    background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(139,92,246,0.12), rgba(244,63,94,0.10));
+    border-color: rgba(59,130,246,0.35);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255,255,255,0.8),
+      0 0 16px rgba(59,130,246,0.2),
+      0 4px 14px rgba(20,21,26,0.12);
+  }
+
+  /* Shimmer sweep */
+  .bg-pill-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.38) 50%, transparent 70%);
+    transform: translateX(-150%) skewX(-18deg);
+    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .bg-pill-btn:hover .bg-pill-shimmer { transform: translateX(150%) skewX(-18deg); }
+
+  .bg-pill-icon {
+    font-size: 1rem;
+    position: relative;
+    z-index: 2;
+    animation: bgIconBob 2.6s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes bgIconBob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    40%       { transform: translateY(-3px) rotate(-8deg); }
+    70%       { transform: translateY(-1px) rotate(4deg); }
+  }
+
+  .bg-pill-label {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(90deg, var(--accent-blue-light) 0%, var(--accent-violet-light) 50%, var(--accent-coral-light) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: bgLabelShimmer 4s linear infinite;
+  }
+  @keyframes bgLabelShimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .bg-pill-arrow {
+    position: relative;
+    z-index: 2;
+    font-size: 0.9rem;
+    color: var(--accent-blue-light);
+    transition: transform 0.3s var(--ease-liquid);
+    display: inline-block;
+  }
+
+  .bg-pill-btn:hover {
+    transform: translateY(-4px) scale(1.07);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow:
+      inset 0 2px 3px rgba(255, 255, 255, 0.55),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+      0 0 28px rgba(96, 165, 250, 0.55),
+      0 0 55px rgba(139, 92, 246, 0.28),
+      0 12px 28px rgba(0, 0, 0, 0.38);
+    animation-play-state: paused;
+  }
+  .bg-pill-btn:hover .bg-pill-arrow { transform: translate(3px, -3px); }
+  .bg-pill-btn:active { transform: translateY(-1px) scale(0.95); transition-duration: 0.12s; }
+
+  @keyframes bgPillPulse {
+    0%, 100% {
+      box-shadow:
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+        0 0 18px rgba(96, 165, 250, 0.30),
+        0 0 38px rgba(139, 92, 246, 0.15),
+        0 6px 18px rgba(0, 0, 0, 0.28);
+    }
+    50% {
+      box-shadow:
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+        0 0 28px rgba(96, 165, 250, 0.55),
+        0 0 55px rgba(139, 92, 246, 0.30),
+        0 6px 18px rgba(0, 0, 0, 0.28);
+    }
+  }
+
+  /* bg-modal: collapse grid on small screens */
+  @media (max-width: 600px) {
+    #bg-modal .modal-content { padding: 3.5rem 1.2rem 1.6rem !important; }
+    #bg-modal .modal-content > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
   }
 
 </style>
@@ -848,7 +1073,7 @@
 
     <div style="display: flex; gap: 1rem; align-items: center;">
       <div class="theme-toggle" id="themeToggle" role="button" aria-label="Toggle light and dark theme" tabindex="0">
-        <div class="toggle-knob" id="toggleKnob">🌙</div>
+        <span id="toggleKnob" style="display: flex; align-items: center; justify-content: center;"></span>
       </div>
       <a href="#contact" class="nav-cta">Contact</a>
       <div class="hamburger" id="hamburger">
@@ -862,20 +1087,44 @@
   <div class="wrap">
     <div class="hero-copy">
       <div class="eyebrow">Portfolio — 2026</div>
+      <img src="images/my-profile.jpg" alt="Muhammed Basim" style="display: block; width: 85px; height: 85px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 2px solid var(--accent-blue-light); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">
       <h1>Hi, I'm Muhammed Basim. 👋<br>I craft <span class="hl-blue">web experiences</span> and build <span class="hl-coral">applications</span>.</h1>
       <p>Welcome to my page! I'm a web developer and IT Infrastructure student with a passion for creating clean, responsive, and interactive websites. From designing seamless frontend interfaces with HTML, CSS, and JavaScript to handling backend logic and exploring cloud networking, I love bringing ideas to life on the web.</p>
       <div class="hero-ctas">
-        <button class="btn btn-primary" onclick="openModal('foodfeast-modal')">View FoodFeast →</button>
-        <a href="#contact" class="btn btn-ghost">Get in touch</a>
-        <a href="Muhammed_basim_pk__dev_resume.docx" download class="btn btn-ghost" style="border-color: var(--accent-blue-light); color: var(--text-main);">
-          Download Resume ↓
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="Muhammed_basim_pk__dev_resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost" style="border-color: var(--accent-blue-light); color: var(--text-main);">
+          View Resume ↗
         </a>
       </div>
       <div class="hero-meta">
-        <span><b>NTTF</b> · 2023–2026</span>
-        <span><b>Kerala</b>, India</span>
-        <span><b>CCNA</b> certification</span>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; width: 100%; margin-bottom: 0.5rem; align-items: center;">
+          <span><b>NTTF</b> · 2023–2026</span>
+          <span><b>Kerala</b>, India</span>
+        </div>
+        <div style="flex-basis: 100%; height: 0;"></div>
+        <span onclick="openModal('bg-modal')" class="bg-pill-btn" style="margin-top: 0.8rem;" title="Learn more about me"><span class="bg-pill-shimmer"></span><span class="bg-pill-icon">🙋</span><span class="bg-pill-label">Personal Background</span><span class="bg-pill-arrow">↗</span></span>
       </div>
+      
+      <!-- NEW STATS GRID -->
+      <div class="stats-grid reveal">
+        <div class="stat-card" onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})">
+          <div class="stat-value">3+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-card" onclick="openModal('cgpa-modal')">
+          <div class="stat-value">8.9+</div>
+          <div class="stat-label">Overall CGPA</div>
+        </div>
+        <div class="stat-card" onclick="openModal('ccna-modal')">
+          <div class="stat-value text-val">CCNA</div>
+          <div class="stat-label">Cisco Certified</div>
+        </div>
+        <div class="stat-card" onclick="openModal('languages-modal')">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Languages Spoken</div>
+        </div>
+      </div>
+
     </div>
     <div class="phone-stage" id="heroStage">
       <div class="phone"><img src="images/splash.jpg" alt="FoodFeast onboarding screen" loading="lazy"></div>
@@ -893,8 +1142,11 @@
     <h2 class="reveal">Projects I've shipped.</h2>
     <p class="section-sub reveal">Click any project to learn more about how it was built.</p>
     <div class="skills-grid">
+      <!-- FoodFeast Card -->
       <div class="skill-card interactive-card reveal-card" onclick="openModal('foodfeast-modal')">
-        <div class="icon-dot dot-blue">🍱</div>
+        <div class="icon-dot dot-blue" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/home.jpg" alt="FoodFeast Project" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>FoodFeast — Final Year Project</h4>
         <p>A food delivery app that goes beyond ordering — it tracks calorie intake and recommends meals.</p>
         <div class="chip-row">
@@ -902,8 +1154,11 @@
         </div>
       </div>
 
-      <div class="skill-card interactive-card reveal-card" data-icon="🗳" data-title="Online Voting System" data-desc="A secure web-based voting platform designed for digital elections. It allows administrators to add candidates, while users can securely cast their votes and view real-time results via a user-friendly UI." data-chips="HTML, CSS, JavaScript, PHP">
-        <div class="icon-dot dot-violet">🗳</div>
+      <!-- Online Voting System Card -->
+      <div class="skill-card interactive-card reveal-card" onclick="openModal('voting-modal')">
+        <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/vote1.png" alt="Online Voting System" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>Online Voting System</h4>
         <p>A web-based voting platform for casting votes and viewing results, with basic authentication.</p>
         <div class="chip-row">
@@ -911,8 +1166,11 @@
         </div>
       </div>
 
-      <div class="skill-card interactive-card reveal-card" data-icon="📋" data-title="Smart Notice Board" data-desc="A physical IoT project that modernizes the traditional notice board. Using microcontroller hardware, administrators can push text updates wirelessly to the digital display from anywhere." data-chips="IoT, Microcontrollers, C++">
-        <div class="icon-dot dot-coral">📋</div>
+      <!-- Smart Notice Board Card -->
+      <div class="skill-card interactive-card reveal-card" onclick="openModal('notice-modal')">
+        <div class="icon-dot dot-coral" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/smart notice.jpg" alt="Smart Notice Board" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>Smart Notice Board — IoT</h4>
         <p>A digital notice board for posting and updating notices remotely, built with hardware.</p>
         <div class="chip-row">
@@ -929,22 +1187,28 @@
     <h2 class="reveal">What I build with.</h2>
     <p class="section-sub reveal">Click a category for a detailed breakdown of my tech stack.</p>
     <div class="skills-grid">
-      <div class="skill-card interactive-card reveal-card" data-icon="{ }" data-title="Programming" data-desc="My core foundation. I'm comfortable writing scripts, building logic, and learning new syntax. I use Python for scripting/automation, Java/C++ for object-oriented principles, and C for low-level understanding." data-chips="C, C++, Java, Python">
-        <div class="icon-dot dot-blue">{ }</div>
+      <div class="skill-card interactive-card reveal-card" data-icon="images/programming.jpg" data-title="Programming" data-desc="My core foundation. I'm comfortable writing scripts, building logic, and learning new syntax. I use Python for scripting/automation, Java/C++ for object-oriented principles, and C for low-level understanding." data-chips="C, C++, Java, Python">
+        <div class="icon-dot dot-blue" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/programming.jpg" alt="Programming" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>Programming</h4>
         <div class="chip-row">
           <span class="chip">C</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Python</span>
         </div>
       </div>
-      <div class="skill-card interactive-card reveal-card" data-icon="◇" data-title="Web & Mobile" data-desc="My playground for user-facing applications. Flutter is my tool of choice for writing beautiful, cross-platform mobile apps. I also have a strong grasp of standard web development using JS and PHP for backend processing." data-chips="Flutter, JavaScript, HTML/CSS, PHP">
-        <div class="icon-dot dot-violet">◇</div>
+      <div class="skill-card interactive-card reveal-card" data-icon="images/web.jpg" data-title="Web & Mobile" data-desc="My playground for user-facing applications. Flutter is my tool of choice for writing beautiful, cross-platform mobile apps. I also have a strong grasp of standard web development using JS and PHP for backend processing." data-chips="Flutter, JavaScript, HTML/CSS, PHP">
+        <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/web.jpg" alt="Web & Mobile" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>Web & Mobile</h4>
         <div class="chip-row">
           <span class="chip">Flutter</span><span class="chip">JavaScript</span><span class="chip">PHP</span>
         </div>
       </div>
-      <div class="skill-card interactive-card reveal-card" data-icon="☁" data-title="Infrastructure" data-desc="Currently expanding my knowledge here by studying for the CCNA. I know my way around Linux environments, configuring AWS EC2 instances, and the fundamentals of secure, efficient computer networking." data-chips="AWS EC2, Linux, Networking, CCNA">
-        <div class="icon-dot dot-coral">☁</div>
+      <div class="skill-card interactive-card reveal-card" data-icon="images/cloud.png" data-title="Infrastructure" data-desc="Currently expanding my knowledge here by studying for the CCNA. I know my way around Linux environments, configuring AWS EC2 instances, and the fundamentals of secure, efficient computer networking." data-chips="AWS EC2, Linux, Networking, CCNA">
+        <div class="icon-dot dot-coral" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/cloud.png" alt="Infrastructure" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <h4>Infrastructure</h4>
         <div class="chip-row">
           <span class="chip">AWS EC2</span><span class="chip">Linux</span><span class="chip">Networking</span>
@@ -961,37 +1225,128 @@
     <p class="section-sub reveal">My academic journey across Kerala and Bangalore. Click any card for more details.</p>
 
     <div class="skills-grid" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
-      <div class="skill-card interactive-card reveal-card" data-icon="🎓" data-title="NTTF Diploma" data-desc="Completed a 3-year Diploma in Computer Engineering & IT Infrastructure. I spent the first two years (2023–2025) at the Thalassery, Kerala campus building core development and networking skills. I am now completing my final year in Bangalore (Electronic City)." data-chips="Computer Engineering, IT Infrastructure">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-          <h4 style="margin: 0; font-size: 1.4rem; color: var(--accent-blue-light);">Diploma in Computer Engineering</h4>
-          <span class="chip" style="color: var(--accent-blue-light); border-color: rgba(59,130,246,0.4); font-weight: bold;">2023 — 2026</span>
+      <div class="skill-card reveal-card" onclick="openModal('nttf-modal')">
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+          <div class="icon-dot dot-blue" style="overflow: hidden; padding: 0; background: transparent; margin-bottom: 0; flex-shrink: 0;">
+            <img src="images/nttf.png" alt="NTTF" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="flex: 1; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <h4 style="margin: 0; font-size: 1.4rem; color: var(--accent-blue-light);">Diploma in Computer Engineering</h4>
+            <span class="chip" style="color: var(--accent-blue-light); border-color: rgba(59,130,246,0.4); font-weight: bold;">2023 — 2026</span>
+          </div>
         </div>
-        <p style="color: var(--text-main); font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">NTTF (Nettur Technical Training Foundation)</p>
+        <p style="color: var(--text-main); font-size: 1.1rem; font-weight: 600; margin-bottom: 0;">NTTF (Nettur Technical Training Foundation)</p>
       </div>
 
-      <div class="skill-card interactive-card reveal-card" data-icon="🏫" data-title="Higher Secondary" data-desc="Completed my Higher Secondary Education (+1 and +2) as a Computer Science student at Government Vocational Higher Secondary School (GVHSS) Chirakkara." data-chips="Computer Science, Plus Two">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-          <h4 style="margin: 0; font-size: 1.3rem;">Higher Secondary (+1 & +2)</h4>
+      <div class="skill-card reveal-card" onclick="openModal('gvhss-modal')">
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+          <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent; margin-bottom: 0; flex-shrink: 0;">
+            <img src="images/gvhss.png" alt="GVHSS" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="flex: 1; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <h4 style="margin: 0; font-size: 1.3rem;">Higher Secondary (+1 & +2)</h4>
+            <span class="chip" style="color: var(--accent-violet-light); border-color: rgba(139,92,246,0.4); font-weight: bold;">2021 — 2023</span>
+          </div>
         </div>
-        <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">GVHSS Chirakkara</p>
+        <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0;">GVHSS Chirakkara</p>
+      </div>
+
+      <div class="skill-card reveal-card" onclick="openModal('stj-modal')">
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem;">
+          <div class="icon-dot dot-coral" style="overflow: hidden; padding: 0; background: transparent; margin-bottom: 0; flex-shrink: 0;">
+            <img src="images/stj.png" alt="St Josephs" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="flex: 1; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <h4 style="margin: 0; font-size: 1.3rem;">SSLC (10th Standard)</h4>
+            <span class="chip" style="color: var(--accent-coral-light); border-color: rgba(244,63,94,0.4); font-weight: bold;">2020 — 2021</span>
+          </div>
+        </div>
+        <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0;">St Josephs HSS Thalassery</p>
       </div>
     </div>
   </div>
 </section>
 
 <footer id="contact" style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 9rem 0;">
-  <div class="wrap" style="text-align: center; max-width: 600px;">
+  <div class="wrap" style="text-align: center; max-width: 650px;">
     <div class="eyebrow reveal">Contact</div>
+    <img src="images/my-profile1.jpg" alt="Muhammed Basim" class="reveal" style="display: block; width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.5rem; border: 2px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
     <h2 class="reveal" style="font-size: 3.5rem; margin-bottom: 1.5rem;">Let's talk.</h2>
     <p style="color: var(--text-muted); margin-bottom: 3rem; font-size: 1.15rem;">Open to internships, freelance work, or just talking shop about Flutter, Firebase, or networking.</p>
-    <div class="hero-ctas" style="justify-content: center;">
-      <a href="mailto:muhammedbasimpk73@gmail.com" class="btn btn-primary">Email me →</a>
-      <a href="https://github.com/Basimpk031" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
-      <a href="http://linkedin.com/in/muhammed-basim-pk-b6b315336" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+    <div class="hero-ctas" style="justify-content: center; gap: 1.2rem;">
+      <a href="mailto:muhammedbasimpk73@gmail.com" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.6rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        Email me
+      </a>
+      
+      <a href="tel:+916238734492" class="btn btn-ghost" style="display: inline-flex; align-items: center; gap: 0.6rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +91 6238734492
+      </a>
+
+      <a href="https://github.com/Basimpk031" class="btn btn-ghost" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.6rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        GitHub
+      </a>
+
+      <a href="http://linkedin.com/in/muhammed-basim-pk-b6b315336" class="btn btn-ghost" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.6rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        LinkedIn
+      </a>
     </div>
   </div>
 </footer>
 
+<!-- Modals Block Starts Here -->
+
+<!-- Stats Block Modals -->
+<div id="cgpa-modal" class="modal">
+  <div class="modal-content" style="max-width: 850px; max-height: 85vh; overflow-y: auto; grid-template-columns: 1fr; padding: 3rem;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-info" style="text-align: center; margin-bottom: 2rem;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Semester Certificates</h2>
+      <p style="color: var(--text-muted); font-size: 1.2rem;">Overall CGPA: 8.9+</p>
+    </div>
+    <div class="modal-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
+      <img src="images/sem1.jpg" alt="Semester 1 Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/sem2.jpg" alt="Semester 2 Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/sem3.jpg" alt="Semester 3 Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/sem4.jpg" alt="Semester 4 Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/sem5.jpg" alt="Semester 5 Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+    </div>
+  </div>
+</div>
+
+<div id="ccna-modal" class="modal">
+  <div class="modal-content" style="max-width: 850px; max-height: 85vh; overflow-y: auto; grid-template-columns: 1fr; padding: 3rem;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-info" style="text-align: center; margin-bottom: 2rem;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">CCNA Certifications</h2>
+      <p style="color: var(--text-muted); font-size: 1.2rem;">Cisco Networking Academy</p>
+    </div>
+    <div class="modal-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
+      <img src="images/net.png" alt="Networking Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/get.png" alt="Getting Started Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/swi.png" alt="Switching Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+      <img src="images/ent.png" alt="Enterprise Certificate" loading="lazy" style="height: 220px; width: auto; object-fit: contain;">
+    </div>
+  </div>
+</div>
+
+<div id="languages-modal" class="modal modal-simple">
+  <div class="modal-content" style="max-width: 450px;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Languages</h2>
+    <div class="chip-row" style="justify-content: center; gap: 1rem;">
+      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">English</span>
+      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Malayalam</span>
+      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Hindi</span>
+      <span class="chip" style="font-size: 1.05rem; padding: 0.7rem 1.4rem;">Tamil</span>
+    </div>
+  </div>
+</div>
+
+<!-- Project Modals -->
 <div id="foodfeast-modal" class="modal">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">×</div>
@@ -1020,17 +1375,188 @@
   </div>
 </div>
 
+<div id="voting-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery">
+      <img src="images/vote1.png" alt="Online Voting System Screen 1" loading="lazy">
+      <img src="images/vote2.png" alt="Online Voting System Screen 2" loading="lazy">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">Web Project</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.8rem;">Online Voting System.</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        A secure web-based voting platform designed for digital elections. It allows administrators to add candidates, while users can securely cast their votes and view real-time results via a user-friendly UI.
+      </p>
+      <div class="chip-row">
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">PHP</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notice-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery">
+      <img src="images/smart notice.jpg" alt="Smart Notice Board setup" loading="lazy">
+      <img src="images/smart notice2.png" alt="Smart Notice Board close-up" loading="lazy">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">IoT Project</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.8rem;">Smart Notice Board.</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        A physical IoT project that modernizes the traditional notice board. Using microcontroller hardware, administrators can push text updates wirelessly to the digital display from anywhere.
+      </p>
+      <div class="chip-row">
+        <span class="chip">IoT</span>
+        <span class="chip">Microcontrollers</span>
+        <span class="chip">C++</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Education Modals -->
+<div id="nttf-modal" class="modal">
+  <div class="modal-content" style="grid-template-columns: 1fr 1.5fr;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery" style="grid-template-columns: 1fr;">
+      <img src="images/nttf.png" alt="NTTF Campus" loading="lazy" style="max-height: 400px; object-fit: cover;">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">Education</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.5rem;">NTTF Diploma.</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        Completed a 3-year Diploma in Computer Engineering & IT Infrastructure. I spent the first two years (2023–2025) at the Thalassery, Kerala campus building core development and networking skills. I am now completing my final year in Bangalore (Electronic City).
+      </p>
+      <div class="chip-row">
+        <span class="chip">Computer Engineering</span>
+        <span class="chip">IT Infrastructure</span>
+        <span class="chip">2023 — 2026</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="gvhss-modal" class="modal">
+  <div class="modal-content" style="grid-template-columns: 1fr 1.5fr;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery" style="grid-template-columns: 1fr;">
+      <img src="images/gvhss.png" alt="GVHSS Campus" loading="lazy" style="max-height: 400px; object-fit: cover;">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">Education</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.5rem;">Higher Secondary.</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        Completed my Higher Secondary Education (+1 and +2) as a Computer Science student at Government Vocational Higher Secondary School (GVHSS) Chirakkara.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Computer Science</span>
+        <span class="chip">Plus Two</span>
+        <span class="chip">2021 — 2023</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="stj-modal" class="modal">
+  <div class="modal-content" style="grid-template-columns: 1fr 1.5fr;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery" style="grid-template-columns: 1fr;">
+      <img src="images/stj.png" alt="St Josephs Campus" loading="lazy" style="max-height: 400px; object-fit: cover;">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">Education</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.5rem;">SSLC (10th Standard).</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        Completed my 10th standard (SSLC) education at St Josephs HSS Thalassery, building my early academic foundation.
+      </p>
+      <div class="chip-row">
+        <span class="chip">SSLC</span>
+        <span class="chip">10th Standard</span>
+        <span class="chip">2020 — 2021</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="details-modal" class="modal modal-simple">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">×</div>
     <div>
-      <div class="icon-dot" id="dm-icon" style="font-size: 2.5rem; width: 80px; height: 80px; margin: 0 auto 2rem;"></div>
+      <div class="icon-dot" id="dm-icon" style="overflow: hidden; padding: 0; background: transparent; font-size: 2.5rem; width: 80px; height: 80px; margin: 0 auto 2rem;"></div>
       <h2 id="dm-title" style="margin-bottom: 1.5rem; font-size: 2.5rem;">Title</h2>
       <p id="dm-desc" style="color: var(--text-muted); margin-bottom: 3rem; line-height: 1.8; font-size: 1.15rem;"></p>
       <div class="chip-row" id="dm-chips" style="justify-content: center;"></div>
     </div>
   </div>
 </div>
+
+<div id="bg-modal" class="modal modal-simple">
+  <div class="modal-content" style="max-width: 780px; text-align: left; padding: 2.8rem 2.8rem 2.2rem; max-height: 92vh; overflow-y: auto;">
+    <div class="modal-close" onclick="closeModal()">×</div>
+
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem;">
+      <img src="images/my-profile.jpg" alt="Muhammed Basim" style="width: 60px; height: 60px; border-radius: 16px; object-fit: cover; border: 1px solid rgba(96,165,250,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.2); flex-shrink: 0;">
+      <div>
+        <h2 style="font-size: 1.9rem; margin: 0 0 0.15rem;">Personal Background</h2>
+        <p style="color: var(--accent-blue-light); font-size: 0.75rem; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 700; margin: 0;">Muhammed Basim PK</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.4rem;">
+
+      <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
+        <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-coral-light); font-weight: 700; margin-bottom: 0.5rem;">🌴 Roots</p>
+        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">Born and raised in <b style="color: var(--text-main);">Kerala, India</b>. Growing up in its rich academic culture shaped my curiosity for technology from an early age.</p>
+      </div>
+
+      <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
+        <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-blue-light); font-weight: 700; margin-bottom: 0.5rem;">🎓 Journey</p>
+        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">3-year Diploma at <b style="color: var(--text-main);">NTTF</b> — started in Thalassery, Kerala, now finishing my final year in <b style="color: var(--text-main);">Bangalore</b>.</p>
+      </div>
+
+      <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
+        <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-violet-light); font-weight: 700; margin-bottom: 0.5rem;">⚡ What Drives Me</p>
+        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">Passionate about <b style="color: var(--text-main);">Flutter & Firebase</b> development and <b style="color: var(--text-main);">web development</b> — building apps and interfaces that feel polished, alive, and purposeful. I hold a <b style="color: var(--text-main);">CCNA certification</b>, merging my love for software with a solid foundation in cloud infrastructure.</p>
+      </div>
+
+      <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
+        <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-teal); font-weight: 700; margin-bottom: 0.5rem;">🚀 Beyond Code</p>
+        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">I build everything <b style="color: var(--text-main);">solo</b> — from idea to production. <b style="color: var(--text-main);">FoodFeast</b>: full-stack delivery app with AI health insights, live tracking & Dynamic Island.</p>
+      </div>
+
+    </div>
+
+    <div class="chip-row" style="justify-content: center;">
+      <span class="chip">Kerala, India</span>
+      <span class="chip">Flutter Dev</span>
+      <span class="chip">CCNA</span>
+      <span class="chip">AWS</span>
+      <span class="chip">Firebase</span>
+      <span class="chip">Open to Work</span>
+    </div>
+  </div>
+</div>
+
+<!-- Image Zoom Overlay -->
+<div id="image-zoom-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 10000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; cursor: zoom-out;">
+  <div class="modal-close" onclick="closeImageZoom()" style="position: absolute; top: 1.5rem; right: 1.5rem; z-index: 10001; background: rgba(255,255,255,0.1);">×</div>
+  <div style="background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)); padding: 1rem; border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.6); max-width: 90vw; max-height: 90vh; display: flex; justify-content: center; align-items: center; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: default;" id="image-zoom-card">
+    <img id="zoomed-image" src="" style="max-width: 100%; max-height: calc(90vh - 2rem); border-radius: 16px; object-fit: contain;">
+  </div>
+</div>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
 
 <script>
   // ─── LITE MODE DETECTION ─────────────────────────────────────────────────────
@@ -1089,7 +1615,39 @@
 
   window.addEventListener('popstate', function () { closeModal(); });
 
+  // ─── IMAGE ZOOM STATE FUNCTIONS ──────────────────────────────────────────────
+  function openImageZoom(src) {
+    document.getElementById('zoomed-image').src = src;
+    var overlay = document.getElementById('image-zoom-overlay');
+    overlay.style.visibility = 'visible';
+    overlay.style.opacity = '1';
+    document.getElementById('image-zoom-card').style.transform = 'scale(1)';
+  }
+
+  function closeImageZoom() {
+    var overlay = document.getElementById('image-zoom-overlay');
+    overlay.style.opacity = '0';
+    document.getElementById('image-zoom-card').style.transform = 'scale(0.9)';
+    setTimeout(function() { overlay.style.visibility = 'hidden'; }, 400);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+
+    // Attach click events to images for the sleek zoom view (ignoring phone carousel)
+    document.querySelectorAll('img').forEach(function(img) {
+      if (img.closest('.phone')) return; // Ignore phone carousel images
+      
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function(e) {
+        e.stopPropagation(); // Stop the card modal from opening simultaneously
+        openImageZoom(this.src);
+      });
+    });
+
+    // Close zoom when clicking outside the zoomed image
+    document.getElementById('image-zoom-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeImageZoom();
+    });
 
     // 1b. SCROLL-REVEAL ANIMATIONS
     var revealEls   = document.querySelectorAll('.reveal');
@@ -1136,7 +1694,7 @@
     });
 
     // 2b. PRESS FEEDBACK
-    var clickableSelectors = '.skill-card, .btn, .nav-cta, .nav-links a, .modal-close, .chip, .carousel-dot';
+    var clickableSelectors = '.skill-card, .btn, .nav-cta, .nav-links a, .modal-close, .chip, .carousel-dot, .stat-card';
     document.querySelectorAll(clickableSelectors).forEach(function (el) {
       el.addEventListener('pointerdown',  function () { el.classList.add('is-pressed'); });
       el.addEventListener('pointerup',    function () { el.classList.remove('is-pressed'); });
@@ -1211,7 +1769,13 @@
     interactiveCards.forEach(function (card) {
       if (card.getAttribute('onclick') && card.getAttribute('onclick').includes('openModal')) return;
       card.addEventListener('click', function () {
-        document.getElementById('dm-icon').innerText  = card.dataset.icon  || '';
+        // Change logic here to insert the image instead of text
+        var iconPath = card.dataset.icon || '';
+        if(iconPath) {
+          document.getElementById('dm-icon').innerHTML = '<img src="' + iconPath + '" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">';
+        } else {
+          document.getElementById('dm-icon').innerHTML = '';
+        }
         document.getElementById('dm-title').innerText = card.dataset.title || '';
         document.getElementById('dm-desc').innerText  = card.dataset.desc  || '';
         var chipsContainer = document.getElementById('dm-chips');
@@ -1230,9 +1794,18 @@
 
     // 5. NAV SCROLL & HAMBURGER
     var navEl = document.getElementById('nav');
+    var backToTopBtn = document.getElementById('backToTop');
+    
     function onScroll() {
       if (window.scrollY > 15) navEl.classList.add('scrolled');
       else navEl.classList.remove('scrolled');
+      
+      // Show back to top button after scrolling down 400px
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -1283,27 +1856,44 @@
       .map(function (id) { return document.getElementById(id); })
       .filter(Boolean);
 
-    function setActiveLink(id) {
+    function updateActiveLink() {
+      var scrollPos = window.scrollY || document.documentElement.scrollTop;
+      var windowHeight = window.innerHeight;
+      var currentId = 'about'; // Default to about
+
+      // Determine which section is currently in view
+      sectionEls.forEach(function (section) {
+        // Trigger highlight when the section is 40% down the screen
+        var sectionTop = section.offsetTop - (windowHeight * 0.4);
+        var sectionBottom = sectionTop + section.offsetHeight;
+
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+          currentId = section.id;
+        }
+      });
+
+      // Catch for the very bottom of the page
+      if ((window.innerHeight + scrollPos) >= document.body.offsetHeight - 50) {
+        currentId = sectionEls[sectionEls.length - 1].id;
+      }
+
+      // Apply the active class
       navAnchors.forEach(function (a) {
         var href = a.getAttribute('href') || '';
-        a.classList.toggle('active', href === '#' + id);
+        if (href === '#' + currentId) {
+          a.classList.add('active');
+        } else {
+          a.classList.remove('active');
+        }
       });
     }
 
-    if ('IntersectionObserver' in window && sectionEls.length) {
-      var activeSectionObserver = new IntersectionObserver(function (entries) {
-        var best = null;
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            if (!best || entry.intersectionRatio > best.intersectionRatio) best = entry;
-          }
-        });
-        if (best) setActiveLink(best.target.id);
-      }, { threshold: [0.2, 0.4, 0.6], rootMargin: '-35% 0px -45% 0px' });
-
-      sectionEls.forEach(function (el) { activeSectionObserver.observe(el); });
-    }
-    setActiveLink('about');
+    // Listen for scroll and resize events instead of relying on the buggy observer
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    window.addEventListener('resize', updateActiveLink);
+    
+    // Run once on load to set the initial state
+    updateActiveLink();
 
     // ─── 6d. THEME TOGGLE ─────────────────────────────────────────────────────
     var themeToggle = document.getElementById('themeToggle');
@@ -1312,7 +1902,10 @@
 
     function reflectKnob() {
       var isLightNow = document.documentElement.classList.contains('light');
-      toggleKnob.textContent = isLightNow ? '☀️' : '🌙';
+      // Using beautiful SVG paths for Sun and Moon
+      toggleKnob.innerHTML = isLightNow 
+        ? '<svg viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18.75a.75.75 0 01.75.75V21.75a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM6.166 17.834a.75.75 0 001.06 1.06l1.59-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75-.75H1.5a.75.75 0 010 1.5h2.25a.75.75 0 01.75-.75zM6.166 6.166a.75.75 0 010-1.06l1.59-1.591a.75.75 0 011.061 1.06l-1.59 1.591a.75.75 0 01-1.06 0z" fill="currentColor"/></svg>' 
+        : '<svg viewBox="0 0 24 24"><path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" fill="currentColor"/></svg>';
     }
     reflectKnob();
 
