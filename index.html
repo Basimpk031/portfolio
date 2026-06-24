@@ -21,6 +21,8 @@
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%231a1a24'/><stop offset='100%25' stop-color='%23050508'/></linearGradient><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2360a5fa'/><stop offset='100%25' stop-color='%23f43f5e'/></linearGradient><filter id='glow'><feDropShadow dx='0' dy='4' stdDeviation='5' flood-color='%23000' flood-opacity='0.8'/></filter></defs><rect width='100' height='100' rx='28' fill='url(%23bg)' stroke='%233b82f6' stroke-width='2' stroke-opacity='0.3'/><text x='50' y='74' font-family='system-ui, sans-serif' font-size='66' font-weight='900' fill='url(%23grad)' text-anchor='middle' filter='url(%23glow)'>B</text></svg>">
 
+<link rel="canonical" href="https://basimpk031.github.io/portfolio/" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -176,7 +178,36 @@
 
   ::selection { background: rgba(59, 130, 246, 0.4); color: #fff; }
 
-  /* ================= LIQUID AMBIENT BACKDROP ================= */
+  /* ================= LANGUAGE MODAL ROWS ================= */
+  .lang-row {
+    display: flex; align-items: center; justify-content: space-between; 
+    padding: 1.2rem 1.5rem; border-radius: 20px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s var(--ease-liquid), border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  :root.light .lang-row {
+    background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  }
+  .lang-row:hover { 
+    transform: translateX(8px); 
+    background: rgba(255,255,255,0.08); 
+  }
+  :root.light .lang-row:hover { 
+    background: #ffffff; 
+    border-color: rgba(0,0,0,0.15);
+  }
+  .lang-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .lang-name { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-left: 1rem; }
+  .lang-badge { 
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+    padding: 0.3rem 0.8rem; border-radius: 99px;
+  }
+
+
   #bg-mesh {
     position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
     background: radial-gradient(circle at 50% 50%, var(--bg-deep-2), var(--bg-deep));
@@ -783,6 +814,7 @@
   .dot-blue { color: var(--accent-blue-light); text-shadow: 0 0 15px var(--accent-blue); }
   .dot-coral { color: var(--accent-coral-light); text-shadow: 0 0 15px var(--accent-coral); }
   .dot-violet { color: var(--accent-violet-light); text-shadow: 0 0 15px var(--accent-violet); }
+  .dot-teal { color: var(--accent-teal); text-shadow: 0 0 15px var(--accent-teal); }
   
   .skill-card h4 { font-size: 1.35rem; margin-bottom: 1rem; font-weight: 700; }
   .skill-card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.7; }
@@ -878,6 +910,7 @@
       grid-template-columns: 1fr !important;
     }
     #foodfeast-modal .modal-gallery,
+    #foodpreference-modal .modal-gallery,
     #voting-modal .modal-gallery,
     #notice-modal .modal-gallery {
       grid-template-columns: 1fr 1fr !important;
@@ -1364,7 +1397,7 @@
       </div>
       <div class="hero-meta">
         <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; width: 100%; margin-bottom: 0.5rem; align-items: center;">
-          <span><b>NTTF</b> · 2023–2026</span>
+          <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NTTF</b> · 2023–2026</span>
           <span><b>Kerala</b>, India</span>
         </div>
         <div style="flex-basis: 100%; height: 0;"></div>
@@ -1392,7 +1425,7 @@
         <!-- Top: Projects -->
         <div class="orbit-node orbit-node-top" data-color="coral"
              onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
-          <div class="orbit-node-val">3+</div>
+          <div class="orbit-node-val">4+</div>
           <div class="orbit-node-lbl">Projects<br>Built</div>
         </div>
 
@@ -1447,12 +1480,12 @@
         </div>
       </div>
 
-      <div class="skill-card interactive-card reveal-card" onclick="openModal('voting-modal')">
-        <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
-          <img src="images/vote1.png" alt="Online Voting System" style="width: 100%; height: 100%; object-fit: cover;">
+      <div class="skill-card interactive-card reveal-card" onclick="openModal('foodpreference-modal')">
+        <div class="icon-dot dot-teal" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/fp1.png" alt="Food Preference Suggestion Webpage" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <h4>Online Voting System</h4>
-        <p>A web-based voting platform for casting votes and viewing results, with basic authentication.</p>
+        <h4>Food Preference Suggestion Webpage</h4>
+        <p>An interactive webpage that recommends food options based on user preferences with dynamic content.</p>
         <div class="chip-row">
           <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
         </div>
@@ -1468,6 +1501,17 @@
           <span class="chip">IoT</span><span class="chip">Microcontrollers</span>
         </div>
       </div>
+
+      <div class="skill-card interactive-card reveal-card" onclick="openModal('voting-modal')">
+        <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/vote1.png" alt="Online Voting System" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h4>Online Voting System</h4>
+        <p>A web-based voting platform for casting votes and viewing results, with basic authentication.</p>
+        <div class="chip-row">
+          <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1478,31 +1522,51 @@
     <h2 class="reveal">What I build with.</h2>
     <p class="section-sub reveal">Click a category for a detailed breakdown of my tech stack.</p>
     <div class="skills-grid">
-      <div class="skill-card interactive-card reveal-card" data-icon="images/programming.jpg" data-title="Programming" data-desc="My core foundation. I'm comfortable writing scripts, building logic, and learning new syntax. I use Python for scripting/automation, Java/C++ for object-oriented principles, and C for low-level understanding." data-chips="C, C++, Java, Python">
+      <div class="skill-card interactive-card reveal-card" data-icon="images/programming.jpg" data-title="Programming" data-desc="My core foundation. I'm comfortable writing scripts, building logic, and learning new syntax. I use Python for scripting/automation, Java/C++ for object-oriented principles, C for low-level understanding, and apply solid OOP concepts across all projects." data-chips="C, C++, Java, Python, OOP Concepts">
         <div class="icon-dot dot-blue" style="overflow: hidden; padding: 0; background: transparent;">
           <img src="images/programming.jpg" alt="Programming" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h4>Programming</h4>
         <div class="chip-row">
-          <span class="chip">C</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Python</span>
+          <span class="chip">C</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Python</span><span class="chip">OOP</span>
         </div>
       </div>
-      <div class="skill-card interactive-card reveal-card" data-icon="images/web.jpg" data-title="Web & Mobile" data-desc="My playground for user-facing applications. Flutter is my tool of choice for writing beautiful, cross-platform mobile apps. I also have a strong grasp of standard web development using JS and PHP for backend processing." data-chips="Flutter, JavaScript, HTML/CSS, PHP">
+      <div class="skill-card interactive-card reveal-card" data-icon="images/web.jpg" data-title="Web & Mobile" data-desc="My playground for user-facing applications. Flutter/Dart is my tool of choice for writing beautiful, cross-platform mobile apps backed by Firebase. I also have a strong grasp of standard web development using HTML/CSS, JavaScript, and PHP for backend processing." data-chips="Flutter, Dart, Firebase, JavaScript, HTML/CSS, PHP">
         <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
           <img src="images/web.jpg" alt="Web & Mobile" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h4>Web & Mobile</h4>
         <div class="chip-row">
-          <span class="chip">Flutter</span><span class="chip">JavaScript</span><span class="chip">PHP</span>
+          <span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">Firebase</span><span class="chip">JavaScript</span><span class="chip">PHP</span>
         </div>
       </div>
-      <div class="skill-card interactive-card reveal-card" data-icon="images/cloud.png" data-title="Infrastructure" data-desc="Currently expanding my knowledge here by studying for the CCNA. I know my way around Linux environments, configuring AWS EC2 instances, and the fundamentals of secure, efficient computer networking." data-chips="AWS EC2, Linux, Networking, CCNA">
+      <div class="skill-card interactive-card reveal-card" data-icon="images/cloud.png" data-title="Infrastructure & DevOps" data-desc="I hold a CCNA certification from Cisco Networking Academy covering networking, switching, and enterprise fundamentals. Experienced in Linux administration, Ansible for automation, AWS IAM for access management, and Git/GitHub for version control and collaboration." data-chips="CCNA, Linux Admin, Ansible, AWS IAM, Git, GitHub, Networking">
         <div class="icon-dot dot-coral" style="overflow: hidden; padding: 0; background: transparent;">
           <img src="images/cloud.png" alt="Infrastructure" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <h4>Infrastructure</h4>
+        <h4>Infrastructure & DevOps</h4>
         <div class="chip-row">
-          <span class="chip">AWS EC2</span><span class="chip">Linux</span><span class="chip">Networking</span>
+          <span class="chip">CCNA ✓</span><span class="chip">Linux Admin</span><span class="chip">Ansible</span><span class="chip">AWS IAM</span><span class="chip">Git</span><span class="chip">GitHub</span>
+        </div>
+      </div>
+
+      <div class="skill-card interactive-card reveal-card" data-icon="images/db.webp" data-title="Databases" data-desc="Comfortable designing and querying relational databases. I use MySQL for structured data storage and have a solid understanding of SQL for writing queries, joins, aggregations, and schema design." data-chips="MySQL, SQL">
+        <div class="icon-dot dot-blue" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/db.webp" alt="Databases" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h4>Databases</h4>
+        <div class="chip-row">
+          <span class="chip">MySQL</span><span class="chip">SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-card interactive-card reveal-card" data-icon="images/test.jpg" data-title="Testing & Security" data-desc="I apply structured testing methodologies to ensure software quality. This includes black-box testing (external behaviour) and white-box testing (internal logic), UI testing for frontend validation, and Selenium for test automation. I also have foundational knowledge of cybersecurity principles." data-chips="Black Box Testing, White Box Testing, UI Testing, Selenium, Cybersecurity">
+        <div class="icon-dot dot-violet" style="overflow: hidden; padding: 0; background: transparent;">
+          <img src="images/test.jpg" alt="Testing & Security" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h4>Testing & Security</h4>
+        <div class="chip-row">
+          <span class="chip">Selenium</span><span class="chip">UI Testing</span><span class="chip">Black Box</span><span class="chip">White Box</span><span class="chip">Cybersecurity</span>
         </div>
       </div>
     </div>
@@ -1580,7 +1644,7 @@
         GitHub
       </a>
 
-      <a href="http://linkedin.com/in/muhammed-basim-pk-b6b315336" class="btn btn-ghost" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.6rem;">
+      <a href="https://linkedin.com/in/muhammed-basim-pk-b6b315336" class="btn btn-ghost" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.6rem;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
         LinkedIn
       </a>
@@ -1622,36 +1686,6 @@
 </div>
 
 <div id="languages-modal" class="modal modal-simple">
-  <style>
-    .lang-row {
-      display: flex; align-items: center; justify-content: space-between; 
-      padding: 1.2rem 1.5rem; border-radius: 20px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: transform 0.3s var(--ease-liquid), border-color 0.3s, background 0.3s;
-      cursor: default;
-    }
-    :root.light .lang-row {
-      background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
-      border-color: rgba(0,0,0,0.08);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
-    .lang-row:hover { 
-      transform: translateX(8px); 
-      background: rgba(255,255,255,0.08); 
-    }
-    :root.light .lang-row:hover { 
-      background: #ffffff; 
-      border-color: rgba(0,0,0,0.15);
-    }
-    
-    .lang-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-    .lang-name { font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-left: 1rem; }
-    .lang-badge { 
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
-      padding: 0.3rem 0.8rem; border-radius: 99px;
-    }
-  </style>
 
   <div class="modal-content" style="max-width: 500px; padding: 3.5rem 2.5rem; text-align: left; display: block !important;">
     <div class="modal-close" onclick="closeModal()">×</div>
@@ -1720,6 +1754,28 @@
         <span class="chip">Flutter</span>
         <span class="chip">Firebase</span>
         <span class="chip">Razorpay</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="foodpreference-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <div class="modal-gallery">
+      <img src="images/fp1.png" alt="Food Preference Suggestion Webpage Screen 1" loading="lazy">
+      <img src="images/fp2.png" alt="Food Preference Suggestion Webpage Screen 2" loading="lazy">
+    </div>
+    <div class="modal-info">
+      <div class="eyebrow">Web Project</div>
+      <h2 style="margin-bottom: 1rem; font-size: 2.8rem;">Food Preference Suggestion.</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        An interactive webpage that recommends food options tailored to user preferences. Built with dynamic form handling and content display for a personalized browsing experience.
+      </p>
+      <div class="chip-row">
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">JavaScript</span>
       </div>
     </div>
   </div>
@@ -1871,7 +1927,7 @@
 
       <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
         <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent-violet-light); font-weight: 700; margin-bottom: 0.5rem;">⚡ What Drives Me</p>
-        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">Passionate about <b style="color: var(--text-main);">Flutter & Firebase</b> development and <b style="color: var(--text-main);">web development</b> — building apps and interfaces that feel polished, alive, and purposeful. I hold a <b style="color: var(--text-main);">CCNA certification</b>, merging my love for software with a solid foundation in cloud infrastructure.</p>
+        <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.9rem;">Passionate about <b style="color: var(--text-main);">Flutter & Firebase</b> development and <b style="color: var(--text-main);">web development</b> — building apps and interfaces that feel polished, alive, and purposeful. I hold a <b style="color: var(--text-main);">CCNA certification</b> from Cisco Networking Academy, merging my love for software with a solid foundation in cloud infrastructure.</p>
       </div>
 
       <div style="padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--glass-fill); border: 1px solid var(--glass-border);">
@@ -1884,8 +1940,7 @@
     <div class="chip-row" style="justify-content: center;">
       <span class="chip">Kerala, India</span>
       <span class="chip">Flutter Dev</span>
-      <span class="chip">CCNA</span>
-      <span class="chip">AWS</span>
+      <span class="chip">CCNA Certified</span>
       <span class="chip">Firebase</span>
       <span class="chip">Open to Work</span>
     </div>
@@ -1906,6 +1961,12 @@
 </button>
 
 <script>
+  // ─── SCROLL RESTORATION: Always start at top on refresh ──────────────────────
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   // ─── LITE MODE DETECTION ─────────────────────────────────────────────────────
   // Runs synchronously before any rendering so the class is set before first paint.
   (function () {
