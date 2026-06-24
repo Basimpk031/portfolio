@@ -18,7 +18,7 @@ A single-page animated portfolio website built with vanilla HTML, CSS, and JavaS
 |---|---|
 | ![Education section](readme-images/education-section.png) | ![Contact section](readme-images/contact-section.png) |
 
-<sub>Animated call-to-action buttons on the hero section:</sub>
+<sub>Animated Achievement inside About Section</sub>
 
 ![Hero CTA buttons](readme-images/hero-buttons.png)
 
