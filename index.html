@@ -999,6 +999,151 @@
     .nav-cta, .btn, .skill-card, .pos-1, .orbit-ring-svg, .orbit-node.active::before { animation: none !important; }
   }
 
+/* ================= ENHANCED MOTION — high-end devices & iPhones ================= */
+  /* Everything is alive. Increased amplitude, new targets, stripped heavy shadows for JS cursor performance. */
+  /* BUGFIX: Uses independent 'translate' and 'scale' to prevent overwriting layout transforms. */
+
+  :root:not(.lite) .nav { animation: navFloatExtreme 6s ease-in-out infinite; }
+  @keyframes navFloatExtreme { 
+    0%, 100% { translate: 0 0; } 
+    50% { translate: 0 -6px; } 
+  }
+
+  /* Orbs: Faster and wider paths */
+  :root:not(.lite) .orb-1 { animation: driftA 12s ease-in-out infinite; }
+  :root:not(.lite) .orb-2 { animation: driftB 14s ease-in-out infinite reverse; }
+  :root:not(.lite) .orb-3 { animation: driftC 16s ease-in-out infinite; }
+
+  /* Text & Headings: Continuous floating */
+  :root:not(.lite) .hero h1 { animation: h1Float 5s ease-in-out infinite; }
+  @keyframes h1Float { 
+    0%, 100% { translate: 0 0; scale: 1; } 
+    50% { translate: 0 -4px; scale: 1.02; } 
+  }
+
+  :root:not(.lite) h2 { animation: h2Float 6s ease-in-out infinite; }
+  @keyframes h2Float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+
+  :root:not(.lite) p { animation: pBreathe 7s ease-in-out infinite; }
+  @keyframes pBreathe { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 0 -2px; opacity: 0.85; } }
+
+  :root:not(.lite) .section-sub { animation: subFloat 5s ease-in-out infinite; }
+  @keyframes subFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+
+  /* Logo: Amplified Sway */
+  :root:not(.lite) .nav-logo { animation: logoSwayExtreme 4s ease-in-out infinite; }
+  @keyframes logoSwayExtreme {
+    0%, 100% { rotate: 0deg; translate: 0 0; scale: 1; }
+    25% { rotate: -4deg; translate: 0 -3px; scale: 1.05; }
+    75% { rotate: 4deg; translate: 0 -2px; scale: 1.05; }
+  }
+  :root:not(.lite) .nav-logo:hover { animation-play-state: paused; }
+
+  /* Links & Toggles */
+  :root:not(.lite) .nav-links a { animation: linkBreathe 3s ease-in-out infinite; }
+  :root:not(.lite) .nav-links a:nth-child(1) { animation-delay: -0.5s; }
+  :root:not(.lite) .nav-links a:nth-child(2) { animation-delay: -1.0s; }
+  :root:not(.lite) .nav-links a:nth-child(3) { animation-delay: -1.5s; }
+  :root:not(.lite) .nav-links a:nth-child(4) { animation-delay: -2.0s; }
+  @keyframes linkBreathe { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+  :root:not(.lite) .nav-links a:hover { animation-play-state: paused; }
+
+  :root:not(.lite) .theme-toggle { animation: toggleDriftExtreme 4.5s ease-in-out infinite; }
+  @keyframes toggleDriftExtreme { 0%, 100% { rotate: 0deg; translate: 0 0; } 50% { rotate: 12deg; translate: 0 -5px; } }
+  :root:not(.lite) .theme-toggle:hover { animation-play-state: paused; }
+
+  /* Profile Elements & Pill */
+  :root:not(.lite) .eyebrow { animation-duration: 2s; }
+  :root:not(.lite) .bg-pill-btn { animation: pillFloatExtreme 3.5s ease-in-out infinite; }
+  @keyframes pillFloatExtreme { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0 -5px; scale: 1.04; } }
+
+  :root:not(.lite) .profile-pic { animation: profileFloatExtreme 4s ease-in-out infinite; }
+  @keyframes profileFloatExtreme { 
+    0%, 100% { translate: 0 0; rotate: 0deg; } 
+    50% { translate: 0 -10px; rotate: -4deg; } 
+  }
+
+  :root:not(.lite) .hero-meta span { animation: metaFloat 3s ease-in-out infinite; }
+  :root:not(.lite) .hero-meta span:nth-child(2) { animation-delay: -1s; }
+  :root:not(.lite) .hero-meta span:nth-child(3) { animation-delay: -2s; }
+  @keyframes metaFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; color: var(--text-main); } }
+  :root:not(.lite) .hero-meta span:hover { animation-play-state: paused; }
+
+  :root:not(.lite) .btn { animation: btnFloatExtreme 3s ease-in-out infinite; }
+  :root:not(.lite) .nav-cta { animation: btnFloatExtreme 2.5s ease-in-out infinite; }
+  @keyframes btnFloatExtreme { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+
+  /* Orbit Stats: Aggressive Rotations (Layout Bug Fixed) */
+  :root:not(.lite) .orbit-ring-svg { animation-duration: 10s; }
+  :root:not(.lite) .orbit-center { animation: centerPulseExtreme 2.5s ease-in-out infinite; }
+  @keyframes centerPulseExtreme { 0%, 100% { scale: 1; rotate: 0deg; } 50% { scale: 1.08; rotate: 5deg; } }
+  
+  :root:not(.lite) .orbit-node:not(.active) { animation: nodeIdleExtreme 4s ease-in-out infinite; }
+  :root:not(.lite) .orbit-node-right:not(.active)  { animation-delay: -1s; }
+  :root:not(.lite) .orbit-node-bottom:not(.active) { animation-delay: -2s; }
+  :root:not(.lite) .orbit-node-left:not(.active)   { animation-delay: -3s; }
+  @keyframes nodeIdleExtreme { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0 -6px; scale: 1.06; } }
+
+  /* The Phone Stage */
+  :root:not(.lite) .phone-stage { animation: stageFloat 7s ease-in-out infinite; }
+  @keyframes stageFloat { 
+    0%, 100% { transform: scale(0.9) perspective(1400px) rotateY(0deg) translateY(0); } 
+    50% { transform: scale(0.9) perspective(1400px) rotateY(4deg) translateY(-12px); } 
+  }
+  
+  /* Phones */
+  :root:not(.lite) .pos-1 { animation: phoneExtremeBob 4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+  @keyframes phoneExtremeBob { 0%, 100% { translate: 0 0px; } 50% { translate: 0 -18px; } }
+
+  /* Skill Cards */
+  :root:not(.lite) .skill-card { animation: cardBreatheExtreme 4s ease-in-out infinite !important; }
+  :root:not(.lite) .skill-card:nth-child(2) { animation-delay: -1.2s !important; }
+  :root:not(.lite) .skill-card:nth-child(3) { animation-delay: -2.4s !important; }
+  @keyframes cardBreatheExtreme { 
+    0%, 100% { transform: perspective(1000px) translateY(0) rotateX(0) rotateY(0) scale3d(1,1,1); } 
+    50% { transform: perspective(1000px) translateY(-14px) rotateX(3deg) rotateY(-3deg) scale3d(1.03,1.03,1.03); } 
+  }
+  :root:not(.lite) .skill-card h4 { animation: h4Slide 4s ease-in-out infinite; }
+  @keyframes h4Slide { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }
+
+  :root:not(.lite) .icon-dot { animation: iconWiggleExtreme 3s ease-in-out infinite; }
+  @keyframes iconWiggleExtreme { 0%, 100% { rotate: 0deg; translate: 0 0; scale: 1; } 25% { rotate: -10deg; translate: 0 -5px; scale: 1.08; } 75% { rotate: 10deg; translate: 0 -5px; scale: 1.08; } }
+
+  :root:not(.lite) .chip { animation: chipBobExtreme 2.5s ease-in-out infinite; }
+  :root:not(.lite) .chip-row .chip:nth-child(odd)  { animation-delay: -0.5s; }
+  :root:not(.lite) .chip-row .chip:nth-child(even) { animation-delay: -1.2s; }
+  @keyframes chipBobExtreme { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+  :root:not(.lite) .chip:hover { animation-play-state: paused; }
+
+  /* Modals & Popups */
+  :root:not(.lite) .modal.active .modal-content { animation: modalFloat 6s ease-in-out infinite; }
+  @keyframes modalFloat { 
+    0%, 100% { translate: 0 0; scale: 1; } 
+    50% { translate: 0 -10px; scale: 1.02; } 
+  }
+
+  :root:not(.lite) .lang-row { animation: rowSettleExtreme 3s ease-in-out infinite; }
+  :root:not(.lite) .lang-row:nth-child(odd)  { animation-delay: -0.8s; }
+  :root:not(.lite) .lang-row:nth-child(even) { animation-delay: -1.6s; }
+  @keyframes rowSettleExtreme { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 8px 0; scale: 1.02; } }
+  :root:not(.lite) .lang-row:hover { animation-play-state: paused; }
+
+  :root:not(.lite) .modal-gallery img { animation: galleryFloatExtreme 3.5s ease-in-out infinite; }
+  :root:not(.lite) .modal-gallery img:nth-child(even) { animation-delay: -1.7s; }
+  @keyframes galleryFloatExtreme { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0 -10px; scale: 1.03; } }
+  :root:not(.lite) .modal-gallery img:hover { animation-play-state: paused; }
+
+  :root:not(.lite) .modal-close { animation: closeWobbleExtreme 3s ease-in-out infinite; }
+  @keyframes closeWobbleExtreme { 0%, 100% { rotate: 0deg; scale: 1; } 50% { rotate: 18deg; scale: 1.15; } }
+  :root:not(.lite) .modal-close:hover { animation-play-state: paused; }
+
+  /* Misc Elements */
+  :root:not(.lite) .carousel-dot { animation: dotIdleExtreme 2s ease-in-out infinite; }
+  @keyframes dotIdleExtreme { 0%, 100% { opacity: 0.25; scale: 1; } 50% { opacity: 0.6; scale: 1.25; } }
+
+  :root:not(.lite) .back-to-top.show { animation: backToTopFloatExtreme 2.5s ease-in-out infinite; }
+  @keyframes backToTopFloatExtreme { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0 -10px; scale: 1.08; } }
+  :root:not(.lite) .back-to-top:hover { animation-play-state: paused; }
   /* ================= LITE MODE — low-end Android performance fix ================= */
   /* Kills GPU-expensive effects: blur filters, backdrop-filter, heavy animations    */
 
@@ -1397,7 +1542,7 @@
       </div>
       <div class="hero-meta">
         <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; width: 100%; margin-bottom: 0.5rem; align-items: center;">
-          <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NTTF</b> · 2023–2026</span>
+          <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NTTF</b> · 2023–2026</span>
           <span><b>Kerala</b>, India</span>
         </div>
         <div style="flex-basis: 100%; height: 0;"></div>
@@ -2104,8 +2249,9 @@
         var y = e.clientY - rect.top;
         var centerX = rect.width  / 2;
         var centerY = rect.height / 2;
-        var rotateX = ((y - centerY) / centerY) * -12;
-        var rotateY = ((x - centerX) / centerX) * 12;
+        var tiltStrength = isLite ? 12 : 20;
+        var rotateX = ((y - centerY) / centerY) * -tiltStrength;
+        var rotateY = ((x - centerX) / centerX) * tiltStrength;
         card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.02,1.02,1.02)';
         card.style.setProperty('--mx', ((x / rect.width)  * 100) + '%');
         card.style.setProperty('--my', ((y / rect.height) * 100) + '%');
@@ -2123,6 +2269,26 @@
       el.addEventListener('pointerup',    function () { el.classList.remove('is-pressed'); });
       el.addEventListener('pointerleave', function () { el.classList.remove('is-pressed'); });
     });
+
+    // ─── EXTRA SCROLL PARALLAX FOR ORBS (high-end / non-lite devices only) ───────
+    if (!isLite) {
+      var parallaxOrbs = document.querySelectorAll('.orb');
+      var parallaxTicking = false;
+      function updateOrbParallax() {
+        var sy = window.scrollY;
+        parallaxOrbs.forEach(function (orb, i) {
+          var depth = (i + 1) * 0.04;
+          orb.style.translate = '0 ' + (sy * depth) + 'px';
+        });
+        parallaxTicking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!parallaxTicking) {
+          parallaxTicking = true;
+          requestAnimationFrame(updateOrbParallax);
+        }
+      }, { passive: true });
+    }
 
     // 3. CAROUSEL LOGIC
     var phoneArray = Array.from(document.querySelectorAll('.phone'));
