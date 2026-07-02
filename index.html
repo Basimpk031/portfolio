@@ -398,41 +398,51 @@
     color: #f5a623; border-color: rgba(245, 166, 35, 0.3);
   }
   .theme-toggle svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.5s var(--ease-liquid); }
+/* ================= CUSTOM LIQUID-GLASS CURSOR ================= */
+:root {
+    --cursor-glass-fill-a: rgba(255,255,255,0.62);
+    --cursor-glass-fill-b: rgba(255,255,255,0.14);
+    --cursor-glass-stroke: rgba(255,255,255,0.85);
+  }
+  :root.light {
+    --cursor-glass-fill-a: rgba(20,21,26,0.38);
+    --cursor-glass-fill-b: rgba(20,21,26,0.08);
+    --cursor-glass-stroke: rgba(20,21,26,0.5);
+  }
 
-  /* ================= CUSTOM LIQUID-GLASS CURSOR ================= */
-  .cursor-glow, .cursor-dot {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; /* Increased to stay above modals */
-    border-radius: 50%; will-change: transform; transform: translate(-50%, -50%);
+  .cursor-glass {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+    width: 30px; height: 30px; will-change: transform;
+    transition: opacity 0.3s ease;
   }
-  .cursor-glow {
-    width: 38px; height: 38px;
-    background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(244,63,94,0.14));
-    border: 1px solid rgba(255,255,255,0.35);
-    backdrop-filter: blur(4px) saturate(180%); -webkit-backdrop-filter: blur(4px) saturate(180%);
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 3px rgba(0,0,0,0.1), 0 4px 18px rgba(59,130,246,0.25);
-    transition: width 0.3s var(--ease-liquid), height 0.3s var(--ease-liquid), background 0.3s, opacity 0.3s, border-color 0.3s;
+  .cursor-glass-blur {
+    position: absolute; inset: 0;
+    clip-path: polygon(16.667% 16.667%, 46.125% 87.5%, 56.583% 56.708%, 87.5% 46.125%);
+    -webkit-clip-path: polygon(16.667% 16.667%, 46.125% 87.5%, 56.583% 56.708%, 87.5% 46.125%);
+    backdrop-filter: blur(6px) saturate(200%) brightness(1.15);
+    -webkit-backdrop-filter: blur(6px) saturate(200%) brightness(1.15);
+    background: rgba(255,255,255,0.06);
+    transition: background 0.3s ease;
   }
-  .cursor-dot {
-    width: 6px; height: 6px;
-    background: var(--accent-blue-light);
-    box-shadow: 0 0 8px var(--accent-blue-light), 0 0 16px rgba(59,130,246,0.6);
-    transition: width 0.25s var(--ease-liquid), height 0.25s var(--ease-liquid), background 0.25s;
+  :root.light .cursor-glass-blur { background: rgba(20,21,26,0.045); }
+
+  .cursor-glass-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35)) drop-shadow(0 0 10px rgba(96,165,250,0.5));
+    transition: filter 0.3s ease, transform 0.3s var(--ease-liquid);
   }
-  body.cursor-hover .cursor-glow {
-    width: 64px; height: 64px;
-    background: linear-gradient(135deg, rgba(96,165,250,0.3), rgba(244,63,94,0.22));
-    border-color: rgba(255,255,255,0.5);
+  body.cursor-hover .cursor-glass-svg {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)) drop-shadow(0 0 16px rgba(244,63,94,0.65));
+    transform: scale(1.18);
   }
-  body.cursor-hover .cursor-dot {
-    width: 9px; height: 9px;
-    background: var(--accent-coral-light);
-    box-shadow: 0 0 10px var(--accent-coral-light), 0 0 18px rgba(244,63,94,0.6);
-  }
-  body.cursor-active .cursor-glow { width: 30px; height: 30px; }
+  body.cursor-hover .cursor-glass-blur { background: rgba(255,255,255,0.1); }
+  :root.light body.cursor-hover .cursor-glass-blur { background: rgba(20,21,26,0.08); }
+  body.cursor-active .cursor-glass-svg { transform: scale(0.85); }
+
   body.custom-cursor, body.custom-cursor * { cursor: none !important; }
 
   @media (hover: none), (pointer: coarse) {
-    .cursor-glow, .cursor-dot { display: none !important; }
+    .cursor-glass { display: none !important; }
   }
 /* ================= HERO & PROFILE PIC ================= */
   .hero {
@@ -1557,8 +1567,22 @@
 
 <div id="scroll-progress-track" aria-hidden="true"><div id="scroll-progress-bar"></div></div>
 
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-glass" id="cursorGlass" aria-hidden="true">
+  <div class="cursor-glass-blur"></div>
+  <svg class="cursor-glass-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cgFill" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="var(--cursor-glass-fill-a)"/>
+        <stop offset="100%" stop-color="var(--cursor-glass-fill-b)"/>
+      </linearGradient>
+    </defs>
+    <path d="M4 4l7.07 17 2.51-7.39L21 11.07z"
+          fill="url(#cgFill)"
+          stroke="var(--cursor-glass-stroke)"
+          stroke-width="1.1"
+          stroke-linejoin="round"/>
+  </svg>
+</div>
 
 <div id="bg-mesh" aria-hidden="true">
   <div class="orb orb-1"></div>
@@ -2308,6 +2332,7 @@
     }
 
     zoomOverlay.addEventListener('touchstart', function(e) {
+      if (e.target.closest('.modal-close')) return; // let the close (×) button work even while zoomed
       if (e.touches.length === 2) {
         e.preventDefault(); // STOP iOS Safari from crashing the memory layout
         startDistance = getDistance(e.touches);
@@ -2644,11 +2669,10 @@
     var supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (supportsHover) {
       document.body.classList.add('custom-cursor');
-      var cursorGlow = document.getElementById('cursorGlow');
-      var cursorDot  = document.getElementById('cursorDot');
-      var glowX = window.innerWidth / 2, glowY = window.innerHeight / 2;
-      var dotX = glowX, dotY = glowY;
-      var targetX = glowX, targetY = glowY;
+      var cursorGlass = document.getElementById('cursorGlass');
+      var curX = window.innerWidth / 2, curY = window.innerHeight / 2;
+      var targetX = curX, targetY = curY;
+      var TIP_OFFSET = 5; // keeps the arrow's tip aligned with the real pointer position
 
       window.addEventListener('mousemove', function (e) {
         targetX = e.clientX;
@@ -2656,12 +2680,9 @@
       });
 
       function animateCursor() {
-        glowX += (targetX - glowX) * 0.16;
-        glowY += (targetY - glowY) * 0.16;
-        dotX  += (targetX - dotX)  * 0.45;
-        dotY  += (targetY - dotY)  * 0.45;
-        cursorGlow.style.transform = 'translate(' + glowX + 'px,' + glowY + 'px) translate(-50%,-50%)';
-        cursorDot.style.transform  = 'translate(' + dotX  + 'px,' + dotY  + 'px) translate(-50%,-50%)';
+        curX += (targetX - curX) * 0.28;
+        curY += (targetY - curY) * 0.28;
+        cursorGlass.style.transform = 'translate(' + (curX - TIP_OFFSET) + 'px,' + (curY - TIP_OFFSET) + 'px)';
         requestAnimationFrame(animateCursor);
       }
       requestAnimationFrame(animateCursor);
@@ -2680,12 +2701,10 @@
       document.addEventListener('mousedown', function () { document.body.classList.add('cursor-active'); });
       document.addEventListener('mouseup',   function () { document.body.classList.remove('cursor-active'); });
       document.addEventListener('mouseleave', function () {
-        cursorGlow.style.opacity = '0';
-        cursorDot.style.opacity = '0';
+        cursorGlass.style.opacity = '0';
       });
       document.addEventListener('mouseenter', function () {
-        cursorGlow.style.opacity = '1';
-        cursorDot.style.opacity = '1';
+        cursorGlass.style.opacity = '1';
       });
     }
 
